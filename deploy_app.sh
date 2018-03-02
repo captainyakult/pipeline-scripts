@@ -4,7 +4,7 @@
 
 set -e
 
-if [[ ($# -ne 3) || (($3 != "dev") && ($3 != "staging") && ($3 != "production")) ]] ; then
+if [[ ($# -ne 3) || (($3 != "dev") && ($3 != "staging") && ($3 != "production")) ]]; then
 	echo "usage: deploy_app.sh <git repo> <s3 folder> <dev|staging|production>"
 	exit 1
 fi
@@ -22,18 +22,18 @@ if [[($QA_LEVEL = "staging") || ($QA_LEVEL = "production")]]; then
 	GIT_BRANCH=$QA_LEVEL
 fi
 git fetch -p
-git reset --hard origin/$GIT_BRANCH
+# git reset --hard origin/$GIT_BRANCH
 
-# Build the app, which puts whatever it needs into the dist folder.
-./build.sh $QA_LEVEL $VERSION
+# Generate the version.
+VERSION=$(date -u +"%Y-%m-%d").$QA_LEVEL.$(git log --format="%h" -n 1)
+
+# Build the app, which puts whatever it needs into the builds folder.
+mkdir -p $HOME/builds/$GIT_REPO-$QA_LEVEL/
+echo ./build.sh $QA_LEVEL $VERSION "$HOME/builds/$GIT_REPO-$QA_LEVEL"
+./build.sh $QA_LEVEL $VERSION "$HOME/builds/$GIT_REPO-$QA_LEVEL"
 
 # Generate the version file.
-VERSION=$(date -u +"%Y-%m-%d").$QA_LEVEL.$(git log --format="%h" -n 1)
-echo "$VERSION" > dist/version.txt
-
-# Rsync the files into the build folder.
-mkdir -p $HOME/builds/$GIT_REPO-$QA_LEVEL/
-rsync -arvz --exclude=".[!.]*" --exclude 'deploy*' --delete --delete-excluded dist/ $HOME/builds/$GIT_REPO-$QA_LEVEL/
+echo "$VERSION" > $HOME/builds/$GIT_REPO-$QA_LEVEL/version.txt
 
 # AWS sync the files up to S3.
 $HOME/pipelines/aws_s3_sync/sync.py sync-s3-folder eyes-$QA_LEVEL/$S3_FOLDER_NAME $HOME/builds/$GIT_REPO-$QA_LEVEL
