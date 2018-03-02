@@ -25,7 +25,7 @@ git fetch -p
 git reset --hard origin/$GIT_BRANCH
 
 # Build the app, which puts whatever it needs into the dist folder.
-./build.sh $QA_LEVEL
+./build.sh $QA_LEVEL $VERSION
 
 # Generate the version file.
 VERSION=$(date -u +"%Y-%m-%d").$QA_LEVEL.$(git log --format="%h" -n 1)
