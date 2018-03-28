@@ -31,7 +31,13 @@ git fetch -p
 git reset --hard origin/$GIT_BRANCH
 
 # Generate the version.
-VERSION=$(date -u +"%Y-%m-%d").$QA_LEVEL.$(git log --format="%h" -n 1)
+VERSION=$((node -p "require('./package.json').version" || true) 2> /dev/null)
+if [[($VERSION = "")]]; then
+	VERSION=$((cat version.txt || true) 2> /dev/null)
+fi
+if [[($VERSION = "")]]; then
+	VERSION="1.0.0"
+fi
 echo "Using version $VERSION"
 
 # Create the build folder and s3 folder if needed.
