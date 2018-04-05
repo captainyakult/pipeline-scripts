@@ -43,7 +43,7 @@ echo "Using version $VERSION"
 # Create the build folder and s3 folder if needed.
 if [ ! -d $HOME/builds/$GIT_REPO-$BUILD_LEVEL/ ]; then
 	echo "Creating build and S3 folders."
-	mkdir $HOME/builds/$GIT_REPO-$BUILD_LEVEL/
+	mkdir -p $HOME/builds/$GIT_REPO-$BUILD_LEVEL/
 	$HOME/pipelines/aws_s3_sync/sync.py update-manifest eyes-$BUILD_LEVEL/$S3_FOLDER_NAME
 fi
 
