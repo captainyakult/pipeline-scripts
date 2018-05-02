@@ -28,6 +28,7 @@ if [[($QA_LEVEL = "staging") || ($QA_LEVEL = "production")]]; then
 	BUILD_LEVEL=$QA_LEVEL
 fi
 git fetch -p
+git checkout $GIT_BRANCH
 git reset --hard origin/$GIT_BRANCH
 
 # Generate the version.
