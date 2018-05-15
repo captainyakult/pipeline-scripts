@@ -29,7 +29,7 @@ if [[($QA_LEVEL = "staging") || ($QA_LEVEL = "production")]]; then
 fi
 git fetch -p
 git checkout $GIT_BRANCH
-git reset --hard origin/$GIT_BRANCH
+git reset --hard origin/$GIT_BRANCH || git reset --hard $GIT_BRANCH
 
 # Generate the version.
 VERSION=$((node -p "require('./package.json').version" || true) 2> /dev/null)
