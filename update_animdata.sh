@@ -1,6 +1,9 @@
 #! /bin/bash
 
-# make sure the library path for animdatagen is set correctly
+# fail on any error
+set -e
+
+# make sure the library path is set correctly
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/gcc-4.9.0/lib64
 
 # spice_syncer

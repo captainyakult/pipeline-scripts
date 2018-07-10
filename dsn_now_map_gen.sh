@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# fail on any error
+set -e
+
+# make sure the library path is set correctly
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/gcc-4.9.0/lib64
+
 # make sure the output folder exists
 mkdir -p $HOME/pipelines/dsn-now-map-gen/output
 
