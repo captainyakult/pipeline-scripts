@@ -2,6 +2,7 @@
 
 # This script deploys an app to the cloud.
 
+# fail on any error
 set -e
 
 if [[ ($# -ne 3) ]]; then

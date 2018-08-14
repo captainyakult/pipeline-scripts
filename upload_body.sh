@@ -1,3 +1,8 @@
+#!/bin/bash
+
+# fail on any error
+set -e
+
 if [ "$#" -ne 2 ]; then
 	echo "Syntax is: ./upload_body.sh <dev|staging|production> <body>"
 	exit -1

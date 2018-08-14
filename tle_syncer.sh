@@ -1,5 +1,8 @@
 #! /bin/bash
 
+# fail on any error
+set -e
+
 # tle downloader
 pushd $HOME/pipelines/tle_syncer > /dev/null
 $HOME/pipelines/tle_syncer/sync.py -d $HOME/sources/tle >> $HOME/logs/tle_syncer.log 2>&1
