@@ -4,7 +4,7 @@
 set -e
 
 if [ "$#" -ne 2 ]; then
-	echo "Syntax is: ./upload_body.sh <dev|staging|production> <body>"
+	echo "Syntax is: ./upload_animdata.sh <dev|staging|production> <body>"
 	exit -1
 fi
 
@@ -23,5 +23,5 @@ elif [ "$1" == "production" ]; then
 	scp -r -p -q $HOME/sources/animdata/$2/* pipeline@blackhawk2:/var/server/production/spice/$2/
 	$HOME/pipelines/aws_s3_sync/sync.py upload-folder eyesstatic/server/spice/$2 $HOME/sources/animdata/$2
 else
-	echo "Syntax is: ./upload_body.sh <dev|staging|production> <body>"
+	echo "Syntax is: ./upload_animdata.sh <dev|staging|production> <body>"
 fi
