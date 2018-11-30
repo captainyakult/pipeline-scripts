@@ -18,12 +18,12 @@ rm $HOME/logs/spice_syncer_updated_spice.log
 # copy to blackhawk and aws s3
 while read folder
 do
-	ssh -q pipeline@blackhawk2 "mkdir -p /var/server/master/spice/$folder/"
+	ssh -n -q pipeline@blackhawk2 "mkdir -p /var/server/master/spice/$folder/"
 	scp -r -p -q $HOME/sources/animdata/$folder/* pipeline@blackhawk2:/var/server/master/spice/$folder/
-	ssh -q pipeline@blackhawk2 "mkdir -p /var/server/staging/spice/$folder/"
+	ssh -n -q pipeline@blackhawk2 "mkdir -p /var/server/staging/spice/$folder/"
 	scp -r -p -q $HOME/sources/animdata/$folder/* pipeline@blackhawk2:/var/server/staging/spice/$folder/
 	$HOME/pipelines/aws_s3_sync/sync.py upload-folder eyesstage/server/spice/$folder $HOME/sources/animdata/$folder >> $HOME/logs/aws_s3_sync.log 2>&1
-	ssh -q pipeline@blackhawk2 "mkdir -p /var/server/production/spice/$folder/"
+	ssh -n -q pipeline@blackhawk2 "mkdir -p /var/server/production/spice/$folder/"
 	scp -r -p -q $HOME/sources/animdata/$folder/* pipeline@blackhawk2:/var/server/production/spice/$folder/
 	$HOME/pipelines/aws_s3_sync/sync.py upload-folder eyesstatic/server/spice/$folder $HOME/sources/animdata/$folder >> $HOME/logs/aws_s3_sync.log 2>&1
 done < $HOME/logs/animdatagen_updated_animdata.log
