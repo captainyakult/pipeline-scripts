@@ -3,7 +3,8 @@
 # fail on any error
 set -e
 
-# make sure the library path is set correctly
+# make sure the path and library path is set correctly
+export PATH=/usr/local/gcc-4.9.0/bin:$HOME/pipelines/animdatagen/cspice/exe:$PATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/gcc-4.9.0/lib64
 
 # spice_syncer
