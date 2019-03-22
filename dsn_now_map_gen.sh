@@ -14,9 +14,9 @@ pushd $HOME/pipelines/dsn-now-map-gen > /dev/null
 ./updatemap
 popd > /dev/null
 
-# copy aws s3
-$HOME/pipelines/aws_s3_sync/sync.py sync-s3-folder eyes-dev/assets/dynamic/dsn-now-map $HOME/pipelines/dsn-now-map-gen/output >> $HOME/logs/aws_s3_sync.log 2>&1
-$HOME/pipelines/aws_s3_sync/sync.py sync-s3-folder eyes-staging/assets/dynamic/dsn-now-map $HOME/pipelines/dsn-now-map-gen/output >> $HOME/logs/aws_s3_sync.log 2>&1
-$HOME/pipelines/aws_s3_sync/sync.py sync-s3-folder eyes-production/assets/dynamic/dsn-now-map $HOME/pipelines/dsn-now-map-gen/output >> $HOME/logs/aws_s3_sync.log 2>&1
+# copy aws s3 (no logging since it happens so often)
+$HOME/pipelines/aws_s3_sync/sync.py sync-s3-folder eyes-dev/assets/dynamic/dsn-now-map $HOME/pipelines/dsn-now-map-gen/output
+$HOME/pipelines/aws_s3_sync/sync.py sync-s3-folder eyes-staging/assets/dynamic/dsn-now-map $HOME/pipelines/dsn-now-map-gen/output
+$HOME/pipelines/aws_s3_sync/sync.py sync-s3-folder eyes-production/assets/dynamic/dsn-now-map $HOME/pipelines/dsn-now-map-gen/output
 
 
