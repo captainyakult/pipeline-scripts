@@ -1,0 +1,10 @@
+MAILTO=hurley@jpl.nasa.gov
+
+# exo database pipeline
+0 */6 * * * ~/pipelines/scripts/update_exo.sh || echo "Error"
+# spice, animdata, and dynamo pipeline
+0 3 * * * OUTPUT=`~/pipelines/scripts/update_spice.sh 2>&1` || echo "$OUTPUT"
+# tle pipeline
+0 1 * * * ~/pipelines/scripts/tle_syncer.sh || echo "Error"
+# dsn now map generator
+*/5 * * * * OUTPUT=`~/pipelines/scripts/dsn_now_map_gen.sh 2>&1` || echo "$OUTPUT"
