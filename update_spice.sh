@@ -29,7 +29,7 @@ popd > /dev/null
 pushd $DYNAMOGEN > /dev/null
 ./dynamogen --update --spice $SPICE --output $DYNAMO --list $LOGS/spice_syncer_updated_spice.log --updatedFile $LOGS/dynamogen_updated_dynamo.log >> $LOGS/dynamogen.log 2>&1
 popd > /dev/null
-rm $LOGS/spice_syncer_updated_spice.log
+rm -f $LOGS/spice_syncer_updated_spice.log
 
 # copy animdata to blackhawk and sync to aws s3
 while read folder
@@ -43,7 +43,7 @@ do
 	scp -r -p -q $ANIMDATA/$folder/* pipeline@blackhawk2:/var/server/production/spice/$folder/
 	$AWS_S3_SYNC/sync.py upload-folder eyesstatic/server/spice/$folder $ANIMDATA/$folder >> $LOGS/aws_s3_sync.log 2>&1
 done < $LOGS/animdatagen_updated_animdata.log
-rm $LOGS/animdatagen_updated_animdata.log
+rm -f $LOGS/animdatagen_updated_animdata.log
 
 # sync dynamo to aws s3
 while read folder
@@ -53,5 +53,5 @@ do
         $AWS_S3_SYNC/sync.py sync-s3-folder eyes-staging/assets/dynamic/dynamo/$folder $DYNAMO/$folder >> $LOGS/aws_s3_sync.log 2>&1
         $AWS_S3_SYNC/sync.py sync-s3-folder eyes-production/assets/dynamic/dynamo/$folder $DYNAMO/$folder >> $LOGS/aws_s3_sync.log 2>&1
 done < $LOGS/dynamogen_updated_dynamo.log
-rm $LOGS/dynamogen_updated_dynamo.log
+rm -f $LOGS/dynamogen_updated_dynamo.log
 
