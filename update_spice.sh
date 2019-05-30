@@ -3,6 +3,11 @@
 # fail on any error
 set -e
 
+# return if it is already running.
+LOCK_FILE=/tmp/update_spice.lock
+exec 99>"$LOCK_FILE"
+flock -n 99 || exit 0
+
 LOGS=$HOME/logs
 SPICE_SYNCER=$HOME/pipelines/spice_syncer
 ANIMDATAGEN=$HOME/pipelines/animdatagen
