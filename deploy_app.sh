@@ -60,5 +60,9 @@ echo "$VERSION" > $HOME/builds/$GIT_REPO-$BUILD_LEVEL/version.txt
 echo "Uploading the built app to the S3 folder."
 $HOME/pipelines/aws_s3_sync/sync.py sync-s3-folder eyes-$BUILD_LEVEL/$S3_FOLDER_NAME $HOME/builds/$GIT_REPO-$BUILD_LEVEL
 
+if [[($BUILD_LEVEL = "production")]]; then
+	$HOME/pipelines/aws_s3_sync/invalidate.py E3JMG193HISS1S "/"$S3_FOLDER_NAME"/*"
+fi
+
 # Switch back to the called folder.
 popd > /dev/null

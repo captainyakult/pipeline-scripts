@@ -22,7 +22,7 @@ elif [ "$1" == "production" ]; then
 	ssh pipeline@blackhawk2 "mkdir -p /var/server/production/spice/$2"
 	scp -r -p -q $HOME/sources/animdata/$2/* pipeline@blackhawk2:/var/server/production/spice/$2/
 	$HOME/pipelines/aws_s3_sync/sync.py upload-folder eyesstatic/server/spice/$2 $HOME/sources/animdata/$2
-	$HOME/pipelines/aws_s3_sync/invalidate.py E3JMG193HISS1S "/server/spice/"$2"*"
+	$HOME/pipelines/aws_s3_sync/invalidate.py E3JMG193HISS1S "/server/spice/"$2"/*"
 else
 	echo "Syntax is: ./upload_animdata.sh <dev|staging|production> <body>"
 fi
