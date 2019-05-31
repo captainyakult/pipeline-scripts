@@ -16,6 +16,7 @@ AWS_S3_SYNC=$HOME/pipelines/aws_s3_sync
 SPICE=$HOME/sources/spice
 ANIMDATA=$HOME/sources/animdata
 DYNAMO=$HOME/sources/dynamo
+CLOUDFRONT_PRODUCTION_ID=E3JMG193HISS1S
 
 # make sure the library path is set correctly
 # make sure the path and library path is set correctly
@@ -57,6 +58,7 @@ do
         $AWS_S3_SYNC/sync.py sync-s3-folder eyes-dev/assets/dynamic/dynamo/$folder $DYNAMO/$folder >> $LOGS/aws_s3_sync.log 2>&1
         $AWS_S3_SYNC/sync.py sync-s3-folder eyes-staging/assets/dynamic/dynamo/$folder $DYNAMO/$folder >> $LOGS/aws_s3_sync.log 2>&1
         $AWS_S3_SYNC/sync.py sync-s3-folder eyes-production/assets/dynamic/dynamo/$folder $DYNAMO/$folder >> $LOGS/aws_s3_sync.log 2>&1
+	$AWS_S3_SYNC/invalidate.py $CLOUDFRONT_PRODUCTION_ID "/assets/dynamic/dynamo/"$folder"*" >> $LOGS/aws_s3_sync.log 2>&1
 done < $LOGS/dynamogen_updated_dynamo.log
 rm -f $LOGS/dynamogen_updated_dynamo.log
 

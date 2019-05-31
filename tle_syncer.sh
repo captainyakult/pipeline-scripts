@@ -12,3 +12,4 @@ popd > /dev/null
 $HOME/pipelines/aws_s3_sync/sync.py sync-s3-folder eyes-dev/assets/dynamic/tle $HOME/sources/tle >> $HOME/logs/aws_s3_sync.log 2>&1
 $HOME/pipelines/aws_s3_sync/sync.py sync-s3-folder eyes-staging/assets/dynamic/tle $HOME/sources/tle >> $HOME/logs/aws_s3_sync.log 2>&1
 $HOME/pipelines/aws_s3_sync/sync.py sync-s3-folder eyes-production/assets/dynamic/tle $HOME/sources/tle >> $HOME/logs/aws_s3_sync.log 2>&1
+$HOME/pipelines/aws_s3_sync/invalidate.py E3JMG193HISS1S "/assets/dynamic/tle*" >> $HOME/logs/aws_s3_sync.log 2>&1
