@@ -48,6 +48,7 @@ do
 	ssh -n -q pipeline@blackhawk2 "mkdir -p /var/server/production/spice/$folder/"
 	scp -r -p -q $ANIMDATA/$folder/* pipeline@blackhawk2:/var/server/production/spice/$folder/
 	$AWS_S3_SYNC/sync.py upload-folder eyesstatic/server/spice/$folder $ANIMDATA/$folder >> $LOGS/aws_s3_sync.log 2>&1
+	$AWS_S3_SYNC/invalidate.py $CLOUDFRONT_PRODUCTION_ID "/server/spice/"$folder"/*" >> $LOGS/aws_s3_sync.log 2>&1
 done < $LOGS/animdatagen_updated_animdata.log
 rm -f $LOGS/animdatagen_updated_animdata.log
 
@@ -58,7 +59,7 @@ do
         $AWS_S3_SYNC/sync.py sync-s3-folder eyes-dev/assets/dynamic/dynamo/$folder $DYNAMO/$folder >> $LOGS/aws_s3_sync.log 2>&1
         $AWS_S3_SYNC/sync.py sync-s3-folder eyes-staging/assets/dynamic/dynamo/$folder $DYNAMO/$folder >> $LOGS/aws_s3_sync.log 2>&1
         $AWS_S3_SYNC/sync.py sync-s3-folder eyes-production/assets/dynamic/dynamo/$folder $DYNAMO/$folder >> $LOGS/aws_s3_sync.log 2>&1
-	$AWS_S3_SYNC/invalidate.py $CLOUDFRONT_PRODUCTION_ID "/assets/dynamic/dynamo/"$folder"*" >> $LOGS/aws_s3_sync.log 2>&1
+	$AWS_S3_SYNC/invalidate.py $CLOUDFRONT_PRODUCTION_ID "/assets/dynamic/dynamo/"$folder"/*" >> $LOGS/aws_s3_sync.log 2>&1
 done < $LOGS/dynamogen_updated_dynamo.log
 rm -f $LOGS/dynamogen_updated_dynamo.log
 
