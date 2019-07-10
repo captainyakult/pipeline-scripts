@@ -1,4 +1,4 @@
-MAILTO=hurley@jpl.nasa.gov
+MAILTO=vtad-pipelines@jpl.nasa.gov
 
 # exo database pipeline
 0 */6 * * * ~/pipelines/scripts/update_exo.sh || echo "Error"
