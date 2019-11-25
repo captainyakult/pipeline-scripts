@@ -5,6 +5,6 @@ MAILTO=vtad-pipelines@jpl.nasa.gov
 # spice, animdata, and dynamo pipeline
 0 1,13 * * * OUTPUT=`~/pipelines/scripts/update_spice.sh 2>&1` || echo "$OUTPUT"
 # tle pipeline
-0 1 * * * ~/pipelines/scripts/tle_syncer.sh || echo "Error"
+0 1 * * * OUTPUT=`~/pipelines/scripts/tle_syncer.sh 2>&1` || echo "$OUTPUT"
 # dsn now map generator
 */5 * * * * OUTPUT=`~/pipelines/scripts/dsn_now_map_gen.sh 2>&1` || echo "$OUTPUT"
