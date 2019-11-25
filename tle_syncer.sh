@@ -5,7 +5,7 @@ set -e
 
 # tle downloader
 pushd $HOME/pipelines/tle_syncer > /dev/null
-$HOME/pipelines/tle_syncer/sync.py -o $HOME/sources/tle/merged.txt >> $HOME/logs/tle_syncer.log 2>&1
+$HOME/pipelines/tle_syncer/sync.py -u $HOME/pipelines/configs/tle_urls.txt -n $HOME/pipelines/configs/tle_names.txt -o $HOME/sources/tle/merged.txt >> $HOME/logs/tle_syncer.log 2>&1
 popd > /dev/null
 
 # copy aws s3
