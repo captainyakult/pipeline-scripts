@@ -8,3 +8,7 @@ MAILTO=vtad-pipelines@jpl.nasa.gov
 0 1 * * * OUTPUT=`~/pipelines/scripts/tle_syncer.sh 2>&1` || echo "$OUTPUT"
 # dsn now map generator
 */5 * * * * OUTPUT=`~/pipelines/scripts/dsn_now_map_gen.sh 2>&1` || echo "$OUTPUT"
+# EotSS Kiosk MSL Highlight
+42 0 * * * OUTPUT=`~/pipelines/scripts/msl_map.sh 2>&1` || echo "$OUTPUT"
+43 0 * * * OUTPUT=`~/pipelines/scripts/msl_photo.sh 2>&1` || echo "$OUTPUT"
+
