@@ -1,0 +1,81 @@
+2018-070A, sc_icesatii
+ACRIMSAT, sc_acrimsat
+AIM, sc_aim
+AQUA, sc_aqua
+AURA, sc_aura
+C/NOFS, sc_c-nofs
+CALIPSO, sc_calipso
+CLOUDSAT, sc_cloudsat
+CLUSTER II-FM5, sc_cluster_ii_fm5
+CLUSTER II-FM6, sc_cluster_ii_fm6
+CLUSTER II-FM7, sc_cluster_ii_fm7
+CLUSTER II-FM8, sc_cluster_ii_fm8
+CYGFM01, sc_cygnss_1
+CYGFM02, sc_cygnss_2
+CYGFM03, sc_cygnss_3
+CYGFM04, sc_cygnss_4
+CYGFM05, sc_cygnss_5
+CYGFM06, sc_cygnss_6
+CYGFM07, sc_cygnss_7
+CYGFM08, sc_cygnss_8
+EO-1, sc_eo-1
+FGRST, sc_fgrst
+GALEX, sc_galex
+GOES 12, sc_goes_12
+GOES 13, sc_goes_13
+GOES 14, sc_goes_14
+GOES 15, sc_goes_15
+GPM-CORE, sc_gpm
+GRACEFO1, sc_grace_fo1
+GRACEFO2, sc_grace_fo2
+GRIFEX, sc_grifex
+HST, sc_hst
+IMAGE, sc_image
+INTEGRAL, sc_integral
+IPEX, sc_ipex
+ISS, sc_iss
+JASON-2, sc_ostm
+JASON-3, sc_jason_3
+LANDSAT 5, sc_landsat_5
+LANDSAT 7, sc_landsat_7
+LANDSAT 8, sc_landsat_8
+M-CUBED & EXP-1 PRIME, sc_m_cubed
+MCUBED-2, sc_m_cubed_2
+MCUBED-2, sc_m_cubed_2
+MMS 1, sc_mms1
+MMS 2, sc_mms2
+MMS 3, sc_mms3
+MMS 4, sc_mms4
+NOAA 14, sc_noaa_14
+NOAA 15, sc_noaa_15
+NOAA 16, sc_noaa_16
+NOAA 17, sc_noaa_17
+NOAA 18, sc_noaa_18
+NOAA 19, sc_noaa_19
+NUSTAR, sc_nustar
+OCO 2, sc_oco2
+QUIKSCAT, sc_quikscat
+RAINCUBE, sc_raincube
+RAX-2, sc_rax_2
+RBSP A, sc_rbsp_a
+RBSP B, sc_rbsp_b
+SAC-D, sc_aquarius
+SDO, sc_sdo
+SMAP, sc_smap
+SORCE, sc_sorce
+SUOMI NPP, sc_npp
+SWIFT, sc_swift
+TDRS 10, sc_tdrs_10
+TDRS 11, sc_tdrs_11
+TDRS 3, sc_tdrs_3
+TDRS 5, sc_tdrs_5
+TDRS 6, sc_tdrs_6
+TDRS 7, sc_tdrs_7
+TDRS 8, sc_tdrs_8
+TDRS 9, sc_tdrs_9
+TERRA, sc_terra
+THEMIS A, sc_themis_a
+THEMIS D, sc_themis_d
+THEMIS E, sc_themis_e
+TIMED, sc_timed
+WISE, sc_wise
