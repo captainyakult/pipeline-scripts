@@ -2,6 +2,8 @@
 
 set -e
 
+PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
+
 # Get the base folder of the system.
 BASE=$(cd "$(dirname "$0")/../.."; pwd)
 
