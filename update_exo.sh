@@ -1,69 +1,25 @@
 #!/bin/bash
 
-# fail on any error
-set -e
+# Fail on any error.
+set -eo pipefail
 
-#production
-$HOME/pipelines/exo-pipeline-scripts/generateEoX_Ranger.sh $HOME/generated-data/exo-pipeline-scripts-data/ http://blackhawk-blade.jpl.nasa.gov:7000/ >> $HOME/logs/exo-pipeline-scripts.log 2>&1
+# Get the base folder of the system.
+BASE=$(cd "$(dirname "$0")/../.."; pwd)
+EXO_PIPELINE_DIR=$BASE/pipelines/exo-pipeline-scripts
+AWS_S3_SYNC_DIR=$BASE/pipelines/aws_s3_sync
+LOGGER_DIR=$BASE/pipelines/logger
+EXO_DIR=$BASE/sources/exo
+LOGS=$BASE/logs
 
-$HOME/pipelines/aws_s3_sync/sync.py upload-folder eyes-production/assets/dynamic/exo/db $HOME/generated-data/exo-pipeline-scripts-data >> $HOME/logs/aws_s3_sync.log 2>&1
+{
+	# Create the output directory.
+	mkdir -p $EXO_DIR
 
-$HOME/pipelines/aws_s3_sync/sync.py update-manifest eyes-production/assets/dynamic/exo/db >> $HOME/logs/aws_s3_sync.log 2>&1
+	# Run the exo generator.
+	$EXO_PIPELINE_DIR/generateEoX_Ranger.sh $EXO_DIR/ http://blackhawk-blade.jpl.nasa.gov:7000/
 
-
-#staging
-# $HOME/pipelines/aws_s3_sync/sync.py upload-folder eyes-staging/assets/dynamic/exo/db $HOME/generated-data/exo-pipeline-scripts-data >> $HOME/logs/aws_s3_sync.log 2>&1
-
-# $HOME/pipelines/aws_s3_sync/sync.py update-manifest eyes-staging/assets/dynamic/exo/db >> $HOME/logs/aws_s3_sync.log 2>&1
-
-
-#dev
-# $HOME/pipelines/aws_s3_sync/sync.py upload-folder eyes-dev/assets/dynamic/exo/db $HOME/generated-data/exo-pipeline-scripts-data >> $HOME/logs/aws_s3_sync.log 2>&1
-
-# $HOME/pipelines/aws_s3_sync/sync.py update-manifest eyes-dev/assets/dynamic/exo/db >> $HOME/logs/aws_s3_sync.log 2>&1
-
-
-
-
-
-
-# old code
-
-# $HOME/pipelines/exo-pipeline-scripts/generateEoX_Ranger.sh $HOME/generated-data/exo-pipeline-scripts-data/ http://blackhawk-blade.jpl.nasa.gov:7000/ >> $HOME/logs/exo-pipeline-scripts.log 2>&1
-
-# $HOME/pipelines/aws_s3_sync/sync.py upload-folder eyes-dev/ranger/exo-kiosk/static/exo/db $HOME/generated-data/exo-pipeline-scripts-data >> $HOME/logs/aws_s3_sync.log 2>&1
-
-# $HOME/pipelines/aws_s3_sync/sync.py update-manifest eyes-dev/ranger/exo-kiosk >> $HOME/logs/aws_s3_sync.log 2>&1
-
-# $HOME/pipelines/aws_s3_sync/sync.py upload-folder eyes-staging/ranger/exo-kiosk/static/exo/db $HOME/generated-data/exo-pipeline-scripts-data >> $HOME/logs/aws_s3_sync.log 2>&1
-
-# $HOME/pipelines/aws_s3_sync/sync.py update-manifest eyes-staging/ranger/exo-kiosk >> $HOME/logs/aws_s3_sync.log 2>&1
-
-# $HOME/pipelines/aws_s3_sync/sync.py upload-folder eyes-production/ranger/exo-kiosk/static/exo/db $HOME/generated-data/exo-pipeline-scripts-data >> $HOME/logs/aws_s3_sync.log 2>&1
-
-# $HOME/pipelines/aws_s3_sync/sync.py update-manifest eyes-production/ranger/exo-kiosk >> $HOME/logs/aws_s3_sync.log 2>&1
-
-# $HOME/pipelines/aws_s3_sync/sync.py upload-folder eyes-dev/ranger/exo/static/exo/db $HOME/generated-data/exo-pipeline-scripts-data >> $HOME/logs/aws_s3_sync.log 2>&1
-
-# $HOME/pipelines/aws_s3_sync/sync.py update-manifest eyes-dev/ranger/exo >> $HOME/logs/aws_s3_sync.log 2>&1
-
-
-# $HOME/pipelines/aws_s3_sync/sync.py upload-folder eyes-dev/ranger/exo/static/exo/db $HOME/generated-data/exo-pipeline-scripts-data >> $HOME/logs/aws_s3_sync.log 2>&1
-
-# $HOME/pipelines/aws_s3_sync/sync.py update-manifest eyes-dev/ranger/exo >> $HOME/logs/aws_s3_sync.log 2>&1
-
-
-# $HOME/pipelines/aws_s3_sync/sync.py upload-folder eyes-dev/apps/exo-kiosk-web/static/exo/db $HOME/generated-data/exo-pipeline-scripts-data >> $HOME/logs/aws_s3_sync.log 2>&1
-
-# $HOME/pipelines/aws_s3_sync/sync.py update-manifest eyes-dev/apps/exo-kiosk-web >> $HOME/logs/aws_s3_sync.log 2>&1
-
-
-# $HOME/pipelines/aws_s3_sync/sync.py upload-folder eyes-dev/assets/dynamic/exo/db $HOME/generated-data/exo-pipeline-scripts-data >> $HOME/logs/aws_s3_sync.log 2>&1
-
-# $HOME/pipelines/aws_s3_sync/sync.py update-manifest eyes-dev/assets/dynamic/exo/db >> $HOME/logs/aws_s3_sync.log 2>&1
-
-
-# $HOME/pipelines/aws_s3_sync/sync.py upload-folder eyes-staging/assets/dynamic/exo/db $HOME/generated-data/exo-pipeline-scripts-data >> $HOME/logs/aws_s3_sync.log 2>&1
-
-# $HOME/pipelines/aws_s3_sync/sync.py update-manifest eyes-staging/assets/dynamic/exo/db >> $HOME/logs/aws_s3_sync.log 2>&1
-
+	# Upload the files to AWS.
+	$AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyes-dev/assets/dynamic/exo/db $EXO_DIR
+	$AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyes-staging/assets/dynamic/exo/db $EXO_DIR
+	$AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyes-production/assets/dynamic/exo/db $EXO_DIR
+} 2>&1 | $LOGGER_DIR/log.sh $LOGS/update_exo.log
