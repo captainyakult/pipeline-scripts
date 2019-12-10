@@ -30,10 +30,14 @@ LOGS=$BASE/logs
 	$BASE/pipelines/spice_syncer/sync.py -d $SPICE -u $LOGS/spice_syncer_updated_spice.log
 
 	# Run animdatagen.
+	pushd $BASE/pipelines/animdatagen > /dev/null
 	$BASE/pipelines/animdatagen/animdatagen --update --spice $SPICE --output $ANIMDATA --list $LOGS/spice_syncer_updated_spice.log --updatedAnimdataFile $LOGS/animdatagen_updated_animdata.log
+	popd > /dev/null
 
 	# Run dynamogen.
+	pushd $BASE/pipelines/dynamogen > /dev/null
 	$BASE/pipelines/dynamogen/dynamogen --update --spice $SPICE --output $DYNAMO --list $LOGS/spice_syncer_updated_spice.log --updatedFile $LOGS/dynamogen_updated_dynamo.log
+	popd > /dev/null
 	rm -f $LOGS/spice_syncer_updated_spice.log
 
 	# Copy animdata to blackhawk and sync to aws s3.
