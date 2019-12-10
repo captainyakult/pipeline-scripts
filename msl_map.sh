@@ -1,18 +1,25 @@
 #!/bin/bash
 
-set -e
-
-PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
+# Fail on any error.
+set -eo pipefail
 
 # Get the base folder of the system.
 BASE=$(cd "$(dirname "$0")/../.."; pwd)
+MSL_GROUND_MAP_DIR=$BASE/pipelines/msl_ground_map
+AWS_S3_SYNC_DIR=$BASE/pipelines/aws_s3_sync
+LOGGER_DIR=$BASE/pipelines/logger
+MARS_MAP_DIR=$BASE/sources/marsMap
+LOGS=$BASE/logs
 
-pushd $BASE/pipelines/msl_ground_map/ > /dev/null
-$BASE/pipelines/msl_ground_map/msl_ground_map.py $BASE/sources/marsMap/ | $BASE/pipelines/logger/log.sh >> $BASE/logs/msl_ground_map.log 2>&1
-popd > /dev/null
+{
+	# Run the msl_ground_map.
+	mkdir -p $MARS_MAP_DIR
+	$MSL_GROUND_MAP_DIR/msl_ground_map.py $MARS_MAP_DIR/
 
-# copy to blackhawk2 (dev)
-scp -r -p -q $BASE/sources/marsMap/* pipeline@blackhawk2:/var/server/master/data/marsMap/
-# copy to aws s3
-$BASE/pipelines/aws_s3_sync/sync.py sync-s3-folder eyesstage/server/data/marsMap $BASE/sources/marsMap >> $BASE/logs/aws_s3_sync.log 2>&1
-$BASE/pipelines/aws_s3_sync/sync.py sync-s3-folder eyesstatic/server/data/marsMap $BASE/sources/marsMap >> $BASE/logs/aws_s3_sync.log 2>&1
+	# Copy to blackhawk2 (dev).
+	scp -r -p -q $MARS_MAP_DIR/* pipeline@blackhawk2:/var/server/master/data/marsMap/
+
+	# Copy to AWS S3.
+	$AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyesstage/server/data/marsMap $MARS_MAP_DIR
+	$AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyesstatic/server/data/marsMap $MARS_MAP_DIR
+} 2>&1 | $LOGGER_DIR/log.sh $LOGS/msl_map.log

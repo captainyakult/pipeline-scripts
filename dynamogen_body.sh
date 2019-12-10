@@ -1,8 +1,10 @@
 #!/bin/bash
 
-# fail on any error
-set -e
+# Fail on any error.
+set -eo pipefail
 
-pushd $HOME/pipelines/dynamogen > /dev/null
-./dynamogen --verbose --spice $HOME/sources/spice --output $HOME/sources/dynamo --config config/$1.json
-popd > /dev/null
+# Get the base folder of the system.
+BASE=$(cd "$(dirname "$0")/../.."; pwd)
+
+# Run the dynamogen.
+$BASE/pipelines/dynamogen/dynamogen --verbose --spice $BASE/sources/spice --output $BASE/sources/dynamo --config $BASE/pipelines/dynamogen/config/$1.json

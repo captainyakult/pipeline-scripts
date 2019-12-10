@@ -1,8 +1,10 @@
 #!/bin/bash
 
-# fail on any error
-set -e
+# Fail on any error.
+set -eo pipefail
 
-pushd $HOME/pipelines/animdatagen > /dev/null
-./animdatagen --verbose --spice $HOME/sources/spice --output $HOME/sources/animdata --config json/$1.json
-popd > /dev/null
+# Get the base folder of the system.
+BASE=$(cd "$(dirname "$0")/../.."; pwd)
+
+# Run the animdatagen.
+$BASE/pipelines/animdatagen/animdatagen --verbose --spice $BASE/sources/spice --output $BASE/sources/animdata --config $BASE/pipelines/animdatagen/json/$1.json

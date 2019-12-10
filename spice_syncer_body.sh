@@ -1,6 +1,10 @@
 #!/bin/bash
 
-# fail on any error
-set -e
+# Fail on any error.
+set -eo pipefail
 
-$HOME/pipelines/spice_syncer/sync.py -d $HOME/sources/spice -b $1 
+# Get the base folder of the system.
+BASE=$(cd "$(dirname "$0")/../.."; pwd)
+
+# Sync the spice.
+$BASE/pipelines/spice_syncer/sync.py -d $BASE/sources/spice -b $1 

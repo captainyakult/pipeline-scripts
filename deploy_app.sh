@@ -1,9 +1,10 @@
 #!/bin/bash
 
-# This script deploys an app to the cloud.
+# Fail on any error.
+set -eo pipefail
 
-# fail on any error
-set -e
+# Get the base folder of the system.
+BASE=$(cd "$(dirname "$0")/../.."; pwd)
 
 if [[ ($# -ne 3) ]]; then
 	echo "usage: deploy_app.sh <git repo> <s3 folder> <dev|staging|production|custom>"
@@ -16,7 +17,7 @@ QA_LEVEL=$3
 BUILD_LEVEL=$3
 
 # Switch to the git repo folder.
-pushd $HOME/deployments/$GIT_REPO > /dev/null
+pushd $BASE/deployments/$GIT_REPO > /dev/null
 
 # Make sure we're in the right branch and up-to-date.
 echo "Updating the git branch."
@@ -43,25 +44,25 @@ fi
 echo "Using version $VERSION"
 
 # Create the build folder and s3 folder if needed.
-if [ ! -d $HOME/builds/$GIT_REPO-$BUILD_LEVEL/ ]; then
+if [ ! -d $BASE/builds/$GIT_REPO-$BUILD_LEVEL/ ]; then
 	echo "Creating build and S3 folders."
-	mkdir -p $HOME/builds/$GIT_REPO-$BUILD_LEVEL/
-	$HOME/pipelines/aws_s3_sync/sync.py update-manifest eyes-$BUILD_LEVEL/$S3_FOLDER_NAME
+	mkdir -p $BASE/builds/$GIT_REPO-$BUILD_LEVEL/
+	$BASE/pipelines/aws_s3_sync/sync.py update-manifest eyes-$BUILD_LEVEL/$S3_FOLDER_NAME
 fi
 
 # Build the app, which puts whatever it needs into the builds folder.
 echo "Building the app."
-./build.sh $BUILD_LEVEL $VERSION "$HOME/builds/$GIT_REPO-$BUILD_LEVEL"
+./build.sh $BUILD_LEVEL $VERSION "$BASE/builds/$GIT_REPO-$BUILD_LEVEL"
 
 # Generate the version file.
-echo "$VERSION" > $HOME/builds/$GIT_REPO-$BUILD_LEVEL/version.txt
+echo "$VERSION" > $BASE/builds/$GIT_REPO-$BUILD_LEVEL/version.txt
 
 # AWS sync the files up to S3.
 echo "Uploading the built app to the S3 folder."
-$HOME/pipelines/aws_s3_sync/sync.py sync-s3-folder eyes-$BUILD_LEVEL/$S3_FOLDER_NAME $HOME/builds/$GIT_REPO-$BUILD_LEVEL
+$BASE/pipelines/aws_s3_sync/sync.py sync-s3-folder eyes-$BUILD_LEVEL/$S3_FOLDER_NAME $BASE/builds/$GIT_REPO-$BUILD_LEVEL
 
 if [[($BUILD_LEVEL = "production")]]; then
-	$HOME/pipelines/aws_s3_sync/invalidate.py E3JMG193HISS1S "/"$S3_FOLDER_NAME"/*"
+	$BASE/pipelines/aws_s3_sync/invalidate.py E3JMG193HISS1S "/"$S3_FOLDER_NAME"/*"
 fi
 
 # Switch back to the called folder.
