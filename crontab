@@ -3,7 +3,7 @@ MAILTO=vtad-pipelines@jpl.nasa.gov
 # exo database pipeline
 0 */6 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/update_exo.sh
 # spice, animdata, and dynamo pipeline
-0 1,13 * * * OUTPUT=`~/pipelines/scripts/update_spice.sh 2>&1` || echo "$OUTPUT"
+0 1,13 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/update_spice.sh
 # tle pipeline
 0 1 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/tle_syncer.sh
 # dsn now map generator
