@@ -14,11 +14,20 @@ ANIMDATA=$BASE/sources/animdata
 DYNAMO=$BASE/sources/dynamo
 CLOUDFRONT_PRODUCTION_ID=E3JMG193HISS1S
 LOGS=$BASE/logs
+LOCK_FOLDER=/tmp/update_spice.lock
+
+# Function to remove the lock folder.
+function clean_lock {
+	if !(rmdir $LOCK_FOLDER); then
+		exit 1
+	fi
+}
 
 # Return if it is already running.
-LOCK_FILE=/tmp/update_spice.lock
-exec 99>"$LOCK_FILE"
-flock -n 99 || exit 0
+if !(mkdir $LOCK_FOLDER); then
+	exit 0
+fi
+trap "clean_lock" EXIT
 
 # make sure the library path is set correctly
 # make sure the path and library path is set correctly
@@ -64,4 +73,3 @@ do
 	$AWS_S3_SYNC/invalidate.py $CLOUDFRONT_PRODUCTION_ID "/assets/dynamic/dynamo/"$folder"/*"
 done < $LOGS/dynamogen_updated_dynamo.log
 rm -f $LOGS/dynamogen_updated_dynamo.log
-
