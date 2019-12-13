@@ -55,10 +55,10 @@ do
 	scp -r -p -q $ANIMDATA/$folder/* pipeline@blackhawk2:/var/server/master/spice/$folder/
 	ssh -n -q pipeline@blackhawk2 "mkdir -p /var/server/staging/spice/$folder/"
 	scp -r -p -q $ANIMDATA/$folder/* pipeline@blackhawk2:/var/server/staging/spice/$folder/
-	$AWS_S3_SYNC/sync.py upload-folder eyesstage/server/spice/$folder $ANIMDATA/$folder
+	$AWS_S3_SYNC/sync.py upload-folder eyesstage/server/spice/$folder $ANIMDATA/$folder quiet
 	ssh -n -q pipeline@blackhawk2 "mkdir -p /var/server/production/spice/$folder/"
 	scp -r -p -q $ANIMDATA/$folder/* pipeline@blackhawk2:/var/server/production/spice/$folder/
-	$AWS_S3_SYNC/sync.py upload-folder eyesstatic/server/spice/$folder $ANIMDATA/$folder
+	$AWS_S3_SYNC/sync.py upload-folder eyesstatic/server/spice/$folder $ANIMDATA/$folder quiet
 	$AWS_S3_SYNC/invalidate.py $CLOUDFRONT_PRODUCTION_ID "/server/spice/"$folder"/*"
 done < $LOGS/animdatagen_updated_animdata.log
 rm -f $LOGS/animdatagen_updated_animdata.log
@@ -67,9 +67,9 @@ rm -f $LOGS/animdatagen_updated_animdata.log
 while read folder
 do
 	folder=`echo $folder | cut -d/ -f1`
-	$AWS_S3_SYNC/sync.py sync-s3-folder eyes-dev/assets/dynamic/dynamo/$folder $DYNAMO/$folder
-	$AWS_S3_SYNC/sync.py sync-s3-folder eyes-staging/assets/dynamic/dynamo/$folder $DYNAMO/$folder
-	$AWS_S3_SYNC/sync.py sync-s3-folder eyes-production/assets/dynamic/dynamo/$folder $DYNAMO/$folder
+	$AWS_S3_SYNC/sync.py sync-s3-folder eyes-dev/assets/dynamic/dynamo/$folder $DYNAMO/$folder quiet
+	$AWS_S3_SYNC/sync.py sync-s3-folder eyes-staging/assets/dynamic/dynamo/$folder $DYNAMO/$folder quiet
+	$AWS_S3_SYNC/sync.py sync-s3-folder eyes-production/assets/dynamic/dynamo/$folder $DYNAMO/$folder quiet
 	$AWS_S3_SYNC/invalidate.py $CLOUDFRONT_PRODUCTION_ID "/assets/dynamic/dynamo/"$folder"/*"
 done < $LOGS/dynamogen_updated_dynamo.log
 rm -f $LOGS/dynamogen_updated_dynamo.log
