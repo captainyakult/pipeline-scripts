@@ -19,10 +19,14 @@ lsk_file=$(ls $BASE/sources/spice/lsk/00_lsk/naif* | tail -n1)
 echo "Updating TLEs..."
 
 # Copy the merged.txt to an old version.
-# cp $TLE_DIR/merged.txt $TLE_DIR/merged_backup.txt
+if [ -e $TLE_DIR/merged.txt ]; then
+	cp $TLE_DIR/merged.txt $TLE_DIR/merged_backup.txt
+else
+	touch $TLE_DIR/merged_backup.txt
+fi
 
 # Sync the TLEs.
-# $TLE_SYNCER_DIR/sync.py -o $TLE_DIR/merged.txt
+$TLE_SYNCER_DIR/sync.py -o $TLE_DIR/merged.txt
 
 # Compare the results to the backup and generated a list of spacecraft to generate.
 tle_list=$($TLE_SYNCER_DIR/compare.py $TLE_DIR/merged_backup.txt $TLE_DIR/merged.txt | sort)
@@ -65,7 +69,7 @@ for tle_name in $tle_list; do
 	# $AWS_S3_SYNC_DIR/invalidate.py $CLOUDFRONT_PRODUCTION_ID "/assets/dynamic/dynamo/$pioneer_name/*"
 done
 
-# Upload them to AWS.
+# Upload the TLE list files to AWS.
 echo "Uploading TLE list files to AWS."
 $AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyes-dev/assets/dynamic/tle $TLE_DIR quiet
 $AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyes-staging/assets/dynamic/tle $TLE_DIR quiet
