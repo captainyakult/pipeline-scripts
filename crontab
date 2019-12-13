@@ -5,7 +5,7 @@ MAILTO=vtad-pipelines@jpl.nasa.gov
 # spice, animdata, and dynamo pipeline
 0 1,13 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/update_spice.sh
 # tle pipeline
-0 1 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/tle_syncer.sh
+0 1 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/update_tles.sh
 # dsn now map generator
 */5 * * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/dsn_now_map_gen.sh
 # EotSS Kiosk MSL Highlight
