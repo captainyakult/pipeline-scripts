@@ -42,8 +42,12 @@ for tle_name in $tle_list; do
 	$TLE_TO_SPK_DIR/tle_to_spk.py -t $TLE_DIR/merged.txt -n "$tle_name" -l $lsk_file -o $BASE/sources/spice/$pioneer_name/out.bsp -s 0 -e 2419200
 	# Create the filename for the spk.
 	DATE=`brief $BASE/sources/spice/$pioneer_name/out.bsp | grep "^[ ]*[0-9][0-9][0-9][0-9]" | awk -F '[[:space:]][[:space:]]+' '{ print $2 }'`
-	DATE=`chronos -FROM UTC -TO UTC -TIME "$DATE" -SETUP $lsk_file`
-	DATE=`date -d "$DATE" "+%Y%m%d_%H%M%S" 2> /dev/null`
+	if [ `uname -s` == 'Darwin' ]; then
+		DATE=`date -j -f "%Y %b %d %H:%M:%S" "$DATE" "+%Y%m%d_%H%M%S" 2> /dev/null`
+	else
+		DATE=`chronos -FROM UTC -TO UTC -TIME "$DATE" -SETUP $lsk_file`
+		DATE=`date -d "$DATE" "+%Y%m%d_%H%M%S" 2> /dev/null`
+	fi
 	mv $BASE/sources/spice/$pioneer_name/out.bsp $BASE/sources/spice/$pioneer_name/$DATE.bsp
 	# Create the animdata.
 	echo "    spk -> animdata"
