@@ -19,6 +19,6 @@ $MSL_GROUND_MAP_DIR/msl_ground_map.py $MARS_MAP_DIR/
 scp -r -p -q $MARS_MAP_DIR/* pipeline@blackhawk2:/var/server/master/data/marsMap/
 
 # Copy to AWS S3.
-$AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyesstage/server/data/marsMap $MARS_MAP_DIR
-$AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyesstatic/server/data/marsMap $MARS_MAP_DIR
+$AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyesstage/server/data/marsMap $MARS_MAP_DIR quiet
+$AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyesstatic/server/data/marsMap $MARS_MAP_DIR quiet
 

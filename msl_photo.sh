@@ -19,6 +19,6 @@ $MSL_PHOTO_FETCH_DIR/msl_photo_fetch.py $MARS_PHOTO_DIR/
 scp -r -p -q $MARS_PHOTO_DIR/* pipeline@blackhawk2:/var/server/master/data/marsPhoto/
 
 # Copy to AWS S3.
-$AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyesstage/server/data/marsPhoto $MARS_PHOTO_DIR
-$AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyesstatic/server/data/marsPhoto $MARS_PHOTO_DIR
+$AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyesstage/server/data/marsPhoto $MARS_PHOTO_DIR quiet
+$AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyesstatic/server/data/marsPhoto $MARS_PHOTO_DIR quiet
 
