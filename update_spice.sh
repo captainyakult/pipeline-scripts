@@ -6,9 +6,7 @@ set -eo pipefail
 # Get the base folder of the system.
 BASE=$(cd "$(dirname "$0")/../.."; pwd)
 
-LOGS=$BASE/logs
 AWS_S3_SYNC=$BASE/pipelines/aws_s3_sync
-LOGGER_DIR=$BASE/pipelines/logger
 SPICE=$BASE/sources/spice
 ANIMDATA=$BASE/sources/animdata
 DYNAMO=$BASE/sources/dynamo
