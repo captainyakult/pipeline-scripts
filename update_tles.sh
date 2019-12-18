@@ -53,16 +53,16 @@ for tle_name in $tle_list; do
 	ssh -n -q pipeline@blackhawk2 "mkdir -p /var/server/staging/spice/$pioneer_name/"
 	scp -r -p -q $BASE/sources/animdata/$pioneer_name/* pipeline@blackhawk2:/var/server/staging/spice/$pioneer_name/
 	$AWS_S3_SYNC_DIR/sync.py upload-folder eyesstage/server/spice/$pioneer_name $BASE/sources/animdata/$pioneer_name quiet
-	# ssh -n -q pipeline@blackhawk2 "mkdir -p /var/server/production/spice/$pioneer_name/"
-	# scp -r -p -q $BASE/sources/animdata/$pioneer_name/* pipeline@blackhawk2:/var/server/production/spice/$pioneer_name/
-	# $AWS_S3_SYNC_DIR/sync.py upload-folder eyesstatic/server/spice/$pioneer_name $BASE/sources/animdata/$pioneer_name quiet
-	# $AWS_S3_SYNC_DIR/invalidate.py $CLOUDFRONT_PRODUCTION_ID "/server/spice/"$pioneer_name"/*"
+	ssh -n -q pipeline@blackhawk2 "mkdir -p /var/server/production/spice/$pioneer_name/"
+	scp -r -p -q $BASE/sources/animdata/$pioneer_name/* pipeline@blackhawk2:/var/server/production/spice/$pioneer_name/
+	$AWS_S3_SYNC_DIR/sync.py upload-folder eyesstatic/server/spice/$pioneer_name $BASE/sources/animdata/$pioneer_name quiet
+	$AWS_S3_SYNC_DIR/invalidate.py $CLOUDFRONT_PRODUCTION_ID "/server/spice/"$pioneer_name"/*"
 	# Upload dynamo to AWS
 	echo "    Uploading dynamo"
 	$AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyes-dev/assets/dynamic/dynamo/$pioneer_name $BASE/sources/dynamo/$pioneer_name quiet
 	$AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyes-staging/assets/dynamic/dynamo/$pioneer_name $BASE/sources/dynamo/$pioneer_name quiet
-	# $AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyes-production/assets/dynamic/dynamo/$pioneer_name $BASE/sources/dynamo/$pioneer_name quiet
-	# $AWS_S3_SYNC_DIR/invalidate.py $CLOUDFRONT_PRODUCTION_ID "/assets/dynamic/dynamo/$pioneer_name/*"
+	$AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyes-production/assets/dynamic/dynamo/$pioneer_name $BASE/sources/dynamo/$pioneer_name quiet
+	$AWS_S3_SYNC_DIR/invalidate.py $CLOUDFRONT_PRODUCTION_ID "/assets/dynamic/dynamo/$pioneer_name/*"
 done
 
 # Copy the new merged.txt to the main one.
@@ -72,7 +72,7 @@ mv $TLE_DIR/merged_new.txt $TLE_DIR/merged.txt
 echo "Uploading TLE list files to AWS."
 $AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyes-dev/assets/dynamic/tle $TLE_DIR quiet
 $AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyes-staging/assets/dynamic/tle $TLE_DIR quiet
-# $AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyes-production/assets/dynamic/tle $TLE_DIR quiet
-# $AWS_S3_SYNC_DIR/invalidate.py E3JMG193HISS1S "/assets/dynamic/tle/*"
+$AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyes-production/assets/dynamic/tle $TLE_DIR quiet
+$AWS_S3_SYNC_DIR/invalidate.py E3JMG193HISS1S "/assets/dynamic/tle/*"
 
 echo "Complete"
