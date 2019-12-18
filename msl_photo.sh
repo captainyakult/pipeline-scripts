@@ -7,9 +7,7 @@ set -eo pipefail
 BASE=$(cd "$(dirname "$0")/../.."; pwd)
 MSL_PHOTO_FETCH_DIR=$BASE/pipelines/msl_photo_fetch
 AWS_S3_SYNC_DIR=$BASE/pipelines/aws_s3_sync
-LOGGER_DIR=$BASE/pipelines/logger
 MARS_PHOTO_DIR=$BASE/sources/marsPhoto
-LOGS=$BASE/logs
 
 # Run msl_photo_fetch.
 mkdir -p $MARS_PHOTO_DIR

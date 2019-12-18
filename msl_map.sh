@@ -7,9 +7,7 @@ set -eo pipefail
 BASE=$(cd "$(dirname "$0")/../.."; pwd)
 MSL_GROUND_MAP_DIR=$BASE/pipelines/msl_ground_map
 AWS_S3_SYNC_DIR=$BASE/pipelines/aws_s3_sync
-LOGGER_DIR=$BASE/pipelines/logger
 MARS_MAP_DIR=$BASE/sources/marsMap
-LOGS=$BASE/logs
 
 # Run the msl_ground_map.
 mkdir -p $MARS_MAP_DIR

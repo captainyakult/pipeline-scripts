@@ -8,10 +8,8 @@ BASE=$(cd "$(dirname "$0")/../.."; pwd)
 TLE_SYNCER_DIR=$BASE/pipelines/tle_syncer
 TLE_TO_SPK_DIR=$BASE/pipelines/tle_to_spk
 AWS_S3_SYNC_DIR=$BASE/pipelines/aws_s3_sync
-LOGGER_DIR=$BASE/pipelines/logger
 TLE_DIR=$BASE/sources/tle
 CLOUDFRONT_PRODUCTION_ID=E3JMG193HISS1S
-LOGS=$BASE/logs
 
 # Get the needed lsk file.
 lsk_file=$(ls $BASE/sources/spice/lsk/00_lsk/naif* | tail -n1)
