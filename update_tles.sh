@@ -30,7 +30,7 @@ for tle_name in $tle_list; do
 	# Create the spk.
 	echo "    tle -> spk"
 	mkdir -p $BASE/sources/spice/$pioneer_name
-	$TLE_TO_SPK_DIR/tle_to_spk.py -t $TLE_DIR/merged.txt -n "$tle_name" -l $lsk_file -o $BASE/sources/spice/$pioneer_name/out.bsp -s 0 -e 2419200
+	$TLE_TO_SPK_DIR/tle_to_spk.py -t $TLE_DIR/merged_new.txt -n "$tle_name" -l $lsk_file -o $BASE/sources/spice/$pioneer_name/out.bsp -s 0 -e 2419200
 	# Create the filename for the spk.
 	DATE=`brief $BASE/sources/spice/$pioneer_name/out.bsp | grep "^[ ]*[0-9][0-9][0-9][0-9]" | awk -F '[[:space:]][[:space:]]+' '{ print $2 }'`
 	if [ `uname -s` == 'Darwin' ]; then
