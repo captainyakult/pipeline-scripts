@@ -42,7 +42,7 @@ for tle_name in $tle_list; do
 	mv $BASE/sources/spice/$pioneer_name/out.bsp $BASE/sources/spice/$pioneer_name/$DATE.bsp
 	# Create the animdata.
 	echo "    spk -> animdata"
-	$BASE/pipelines/animdatagen/animdatagen --spice $BASE/sources/spice --output $BASE/sources/animdata --config $BASE/pipelines/animdatagen/json/tles/$pioneer_name.json
+	$BASE/pipelines/animdatagen/animdatagen --spice $BASE/sources/spice --output $BASE/sources/animdata --config $BASE/pipelines/animdatagen/config/tles/$pioneer_name.json
 	# Create the dynamo.
 	echo "    spk -> dynamo"
 	$BASE/pipelines/dynamogen/dynamogen --spice $BASE/sources/spice --output $BASE/sources/dynamo --config $BASE/pipelines/dynamogen/config/tles/$pioneer_name.json
