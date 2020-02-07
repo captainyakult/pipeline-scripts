@@ -39,13 +39,13 @@ $BASE/pipelines/spice_syncer/sync.py -d $SPICE -u $LOGS/spice_syncer_updated_spi
 # Run animdatagen.
 echo "  Running animdatagen..."
 pushd $BASE/pipelines/animdatagen > /dev/null
-$BASE/pipelines/animdatagen/animdatagen --update --spice $SPICE --output $ANIMDATA --list $LOGS/spice_syncer_updated_spice.log --updatedAnimdataFile $LOGS/animdatagen_updated_animdata.log
+$BASE/pipelines/animdatagen/animdatagen --update --spice $SPICE --output $ANIMDATA --list $LOGS/spice_syncer_updated_spice.log --updatedAnimdataFile $LOGS/animdatagen_updated_animdata.log | sed 's/^/    /'
 popd > /dev/null
 
 # Run dynamogen.
 echo "  Running dynamogen..."
 pushd $BASE/pipelines/dynamogen > /dev/null
-$BASE/pipelines/dynamogen/dynamogen --update --spice $SPICE --output $DYNAMO --list $LOGS/spice_syncer_updated_spice.log --updatedFile $LOGS/dynamogen_updated_dynamo.log
+$BASE/pipelines/dynamogen/dynamogen --update --spice $SPICE --output $DYNAMO --list $LOGS/spice_syncer_updated_spice.log --updatedFile $LOGS/dynamogen_updated_dynamo.log | sed 's/^/    /'
 popd > /dev/null
 rm -f $LOGS/spice_syncer_updated_spice.log
 
