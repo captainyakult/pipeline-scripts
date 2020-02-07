@@ -7,4 +7,4 @@ set -eo pipefail
 BASE=$(cd "$(dirname "$0")/../.."; pwd)
 
 # Run the animdatagen.
-$BASE/pipelines/animdatagen/animdatagen --verbose --spice $BASE/sources/spice --output $BASE/sources/animdata --config $BASE/pipelines/animdatagen/json/$1.json
+$BASE/pipelines/animdatagen/animdatagen --verbose --spice $BASE/sources/spice --output $BASE/sources/animdata --config $BASE/pipelines/animdatagen/config/$1.json
