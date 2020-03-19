@@ -73,6 +73,6 @@ echo "Uploading TLE list files to AWS."
 $AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyes-dev/assets/dynamic/tle $TLE_DIR quiet
 $AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyes-staging/assets/dynamic/tle $TLE_DIR quiet
 $AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyes-production/assets/dynamic/tle $TLE_DIR quiet
-$AWS_S3_SYNC_DIR/invalidate.py E3JMG193HISS1S "/assets/dynamic/tle/*"
+$AWS_S3_SYNC_DIR/invalidate.py $CLOUDFRONT_PRODUCTION_ID "/assets/dynamic/tle/*"
 
 echo "Complete"
