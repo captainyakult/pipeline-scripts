@@ -9,6 +9,8 @@ MAILTO=vtad-pipelines@jpl.nasa.gov
 30 */6 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/update_tles.sh
 # dsn now map generator
 */5 * * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/dsn_now_map_gen.sh
+# DSN XML Pipeline
+0 6 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/dsn_xml_pipeline.sh bg
 # EotSS Kiosk MSL Highlight
 42 0 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/msl_map.sh
 43 0 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/msl_photo.sh
