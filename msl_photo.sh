@@ -6,7 +6,7 @@ set -eo pipefail
 # Get the base folder of the system.
 BASE=$(cd "$(dirname "$0")/../.."; pwd)
 MSL_PHOTO_FETCH_DIR=$BASE/pipelines/msl_photo_fetch
-AWS_S3_SYNC_DIR=$BASE/pipelines/aws_s3_sync
+AWS_S3_SYNC_DIR=$BASE/pipelines/aws-s3-sync
 MARS_PHOTO_DIR=$BASE/sources/marsPhoto
 
 # Run msl_photo_fetch.

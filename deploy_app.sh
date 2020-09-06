@@ -47,7 +47,7 @@ echo "Using version $VERSION"
 if [ ! -d $BASE/builds/$GIT_REPO-$BUILD_LEVEL/ ]; then
 	echo "Creating build and S3 folders."
 	mkdir -p $BASE/builds/$GIT_REPO-$BUILD_LEVEL/
-	$BASE/pipelines/aws_s3_sync/sync.py update-manifest eyes-$BUILD_LEVEL/$S3_FOLDER_NAME
+	$BASE/pipelines/aws-s3-sync/sync.py update-manifest eyes-$BUILD_LEVEL/$S3_FOLDER_NAME
 fi
 
 # Build the app, which puts whatever it needs into the builds folder.
@@ -59,10 +59,10 @@ echo "$VERSION" > $BASE/builds/$GIT_REPO-$BUILD_LEVEL/version.txt
 
 # AWS sync the files up to S3.
 echo "Uploading the built app to the S3 folder."
-$BASE/pipelines/aws_s3_sync/sync.py sync-s3-folder eyes-$BUILD_LEVEL/$S3_FOLDER_NAME $BASE/builds/$GIT_REPO-$BUILD_LEVEL
+$BASE/pipelines/aws-s3-sync/sync.py sync-s3-folder eyes-$BUILD_LEVEL/$S3_FOLDER_NAME $BASE/builds/$GIT_REPO-$BUILD_LEVEL
 
 if [[($BUILD_LEVEL = "production")]]; then
-	$BASE/pipelines/aws_s3_sync/invalidate.py E3JMG193HISS1S "/"$S3_FOLDER_NAME"/*"
+	$BASE/pipelines/aws-s3-sync/invalidate.py E3JMG193HISS1S "/"$S3_FOLDER_NAME"/*"
 fi
 
 # Switch back to the called folder.

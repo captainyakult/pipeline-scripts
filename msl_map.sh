@@ -6,7 +6,7 @@ set -eo pipefail
 # Get the base folder of the system.
 BASE=$(cd "$(dirname "$0")/../.."; pwd)
 MSL_GROUND_MAP_DIR=$BASE/pipelines/msl_ground_map
-AWS_S3_SYNC_DIR=$BASE/pipelines/aws_s3_sync
+AWS_S3_SYNC_DIR=$BASE/pipelines/aws-s3-sync
 MARS_MAP_DIR=$BASE/sources/marsMap
 
 # Run the msl_ground_map.

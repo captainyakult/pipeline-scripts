@@ -18,8 +18,8 @@ pushd $BASE/pipelines/dsn-now-map-gen > /dev/null
 popd > /dev/null
 
 # copy aws s3 (no logging since it happens so often)
-$BASE/pipelines/aws_s3_sync/sync.py sync-s3-folder eyes-dev/assets/dynamic/dsn-now-map $BASE/pipelines/dsn-now-map-gen/output quiet
-$BASE/pipelines/aws_s3_sync/sync.py sync-s3-folder eyes-staging/assets/dynamic/dsn-now-map $BASE/pipelines/dsn-now-map-gen/output quiet
-$BASE/pipelines/aws_s3_sync/sync.py sync-s3-folder eyes-production/assets/dynamic/dsn-now-map $BASE/pipelines/dsn-now-map-gen/output quiet
+$BASE/pipelines/aws-s3-sync/sync.py sync-s3-folder eyes-dev/assets/dynamic/dsn-now-map $BASE/pipelines/dsn-now-map-gen/output quiet
+$BASE/pipelines/aws-s3-sync/sync.py sync-s3-folder eyes-staging/assets/dynamic/dsn-now-map $BASE/pipelines/dsn-now-map-gen/output quiet
+$BASE/pipelines/aws-s3-sync/sync.py sync-s3-folder eyes-production/assets/dynamic/dsn-now-map $BASE/pipelines/dsn-now-map-gen/output quiet
 
 

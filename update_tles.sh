@@ -7,7 +7,7 @@ set -eo pipefail
 BASE=$(cd "$(dirname "$0")/../.."; pwd)
 TLE_SYNCER_DIR=$BASE/pipelines/tle_syncer
 TLE_TO_SPK_DIR=$BASE/pipelines/tle_to_spk
-AWS_S3_SYNC_DIR=$BASE/pipelines/aws_s3_sync
+AWS_S3_SYNC_DIR=$BASE/pipelines/aws-s3-sync
 TLE_DIR=$BASE/sources/tle
 CLOUDFRONT_PRODUCTION_ID=E3JMG193HISS1S
 

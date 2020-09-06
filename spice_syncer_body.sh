@@ -7,4 +7,4 @@ set -eo pipefail
 BASE=$(cd "$(dirname "$0")/../.."; pwd)
 
 # Sync the spice.
-$BASE/pipelines/spice_syncer/sync.py -d $BASE/sources/spice -b $1 
+$BASE/pipelines/spice-syncer/sync.py -d $BASE/sources/spice -b $1 

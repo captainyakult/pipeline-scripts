@@ -6,7 +6,7 @@ set -eo pipefail
 # Get the base folder of the system.
 BASE=$(cd "$(dirname "$0")/../.."; pwd)
 
-AWS_S3_SYNC=$BASE/pipelines/aws_s3_sync
+AWS_S3_SYNC=$BASE/pipelines/aws-s3-sync
 SPICE=$BASE/sources/spice
 ANIMDATA=$BASE/sources/animdata
 DYNAMO=$BASE/sources/dynamo
@@ -32,9 +32,9 @@ trap "clean_lock" EXIT
 export PATH=/usr/local/gcc-4.9.0/bin:$BASE/pipelines/animdatagen/cspice/exe:$PATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/gcc-4.9.0/lib64
 
-# Run spice_syncer.
-echo "  Running spice_syncer..."
-$BASE/pipelines/spice_syncer/sync.py -d $SPICE -u $LOGS/spice_syncer_updated_spice.log
+# Run spice-syncer.
+echo "  Running spice-syncer..."
+$BASE/pipelines/spice-syncer/sync.py -d $SPICE -u $LOGS/spice_syncer_updated_spice.log
 
 # Run animdatagen.
 echo "  Running animdatagen..."

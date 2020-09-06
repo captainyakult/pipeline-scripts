@@ -1,4 +1,4 @@
-This is a simple script that runs the spice_syncer on a single body. Just run it like this:
+This is a simple script that runs the spice-syncer on a single body. Just run it like this:
 
 `./spice_syncer_body sc_maven`
 
