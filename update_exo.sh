@@ -13,10 +13,12 @@ EXO_DIR=$BASE/sources/exo
 mkdir -p $EXO_DIR
 
 # Updatedatabses.
-$EXO_PIPELINE_DIR/updateDatabases.sh https://eyes.nasa.gov/staging/pipeline/exo/
+$EXO_PIPELINE_DIR/updateDatabases.sh https://eyes.nasa.gov/staging/pipeline/exo
 
 # Run the exo generator.
-$EXO_PIPELINE_DIR/generateEoX_Web.sh $EXO_DIR/ https://eyes.nasa.gov/staging/pipeline/exo/
+$EXO_PIPELINE_DIR/generateEoX_Web.sh $EXO_DIR/ https://eyes.nasa.gov/staging/pipeline/exo
+
+echo $EXO_DIR
 
 # Upload the files to AWS.
 $AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyes-dev/assets/dynamic/exo/db $EXO_DIR
