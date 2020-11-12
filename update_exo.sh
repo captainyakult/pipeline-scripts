@@ -13,7 +13,7 @@ EXO_DIR=$BASE/sources/exo
 mkdir -p $EXO_DIR
 
 # Run the exo generator.
-$EXO_PIPELINE_DIR/generateEoX_Ranger.sh $EXO_DIR/ http://blackhawk-blade.jpl.nasa.gov:7000/
+$EXO_PIPELINE_DIR/generateEoX_Web.sh $EXO_DIR/ https://eyes.nasa.gov/staging/pipeline/exo/
 
 # Upload the files to AWS.
 $AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyes-dev/assets/dynamic/exo/db $EXO_DIR
