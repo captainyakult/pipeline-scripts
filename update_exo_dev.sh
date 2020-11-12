@@ -13,10 +13,10 @@ EXO_DIR=$BASE/sources/exo
 mkdir -p $EXO_DIR
 
 # Updatedatabses.
-$EXO_PIPELINE_DIR/updateDatabases.sh https://eyes.nasa.gov/staging/pipeline/exo
+$EXO_PIPELINE_DIR/updateDatabases.sh https://eyesstage.jpl.nasa.gov/pipeline/exo
 
 # Run the exo generator.
-$EXO_PIPELINE_DIR/generateEoX_Web.sh $EXO_DIR/ https://eyes.nasa.gov/staging/pipeline/exo
+$EXO_PIPELINE_DIR/generateEoX_Web.sh $EXO_DIR/ https://eyesstage.jpl.nasa.gov/pipeline/exo
 
 echo $EXO_DIR
 
