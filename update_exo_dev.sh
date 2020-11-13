@@ -7,7 +7,7 @@ set -eo pipefail
 BASE=$(cd "$(dirname "$0")/../.."; pwd)
 EXO_PIPELINE_DIR=$BASE/pipelines/exo-pipeline/script
 AWS_S3_SYNC_DIR=$BASE/pipelines/aws-s3-sync
-EXO_DIR=$BASE/sources/exo
+EXO_DIR=$BASE/sources/exo-dev
 
 # Create the output directory.
 mkdir -p $EXO_DIR
