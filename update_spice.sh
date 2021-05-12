@@ -23,7 +23,7 @@ function clean_lock {
 
 # Return if it is already running.
 if !(mkdir $LOCK_FOLDER); then
-	exit 0
+	exit 1
 fi
 trap "clean_lock" EXIT
 
