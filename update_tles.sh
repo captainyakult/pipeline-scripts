@@ -68,6 +68,9 @@ done
 # Copy the new merged.txt to the main one.
 mv $TLE_DIR/merged_new.txt $TLE_DIR/merged.txt
 
+# Copy tle_syncer/names.txt to the folder.
+cp --preserve=timestamps $TLE_SYNCER_DIR/names.txt $TLE_DIR
+
 # Upload the TLE list files to AWS.
 echo "Uploading TLE list files to AWS."
 $AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyes-dev/assets/dynamic/tle $TLE_DIR quiet
