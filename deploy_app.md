@@ -3,7 +3,7 @@
 This script goes through a bunch of steps to deploy an app into the AWS cloud. You can run it like this:
 
 ```
-deploy_app.sh <git repo> <git branch> <build level=dev|production> <deployment folder> <deployment level=dev|staging|production>
+deploy_app.sh <git repo> <git branch> <build level=dev|production> <deployment folder> <deployment level=local|dev|staging|production>
 ```
 
 Git repo is the git repo within the ~/deployments folder to use.

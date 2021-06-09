@@ -62,11 +62,12 @@ if [[($DEPLOYMENT_LEVEL != "local")]]; then
 		$BASE/pipelines/aws-s3-sync/invalidate.py E3JMG193HISS1S "/"$DEPLOYMENT_FOLDER_NAME"/*"
 	fi
 else
+	echo "Syncing the built app to the server www folder."
 	if [[($DEPLOYMENT_FOLDER_NAME =~ ^(apps|(assets/static)).*)]]; then
 		mkdir -p $BASE/www/$DEPLOYMENT_FOLDER_NAME/
 		rsync -rtv --delete $BASE/builds/$GIT_REPO-$GIT_BRANCH-$BUILD_LEVEL/ $BASE/www/$DEPLOYMENT_FOLDER_NAME/
 	else
-		echo "If installing locally, you must choose a deployment folder that starts with \"apps/\"."
+		echo "If installing locally, you must choose a deployment folder that starts with \"apps\" or \"assets/static\"."
 		exit 1
 	fi
 fi
