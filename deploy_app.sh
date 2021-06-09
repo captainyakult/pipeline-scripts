@@ -7,7 +7,7 @@ set -eo pipefail
 BASE=$(cd "$(dirname "$0")/../.."; pwd)
 
 if [[ ($# -ne 5) ]]; then
-	echo "usage: deploy_app.sh <git repo> <git branch> <build level=dev|production> <deployment folder> <deployment level=dev|staging|production>"
+	echo "usage: deploy_app.sh <git repo> <git branch> <build level=dev|production> <deployment folder> <deployment level=local|dev|staging|production>"
 	exit 1
 fi
 
@@ -38,9 +38,12 @@ echo "Using version $VERSION"
 
 # Create the build folder and s3 folder if needed.
 if [ ! -d $BASE/builds/$GIT_REPO-$GIT_BRANCH-$BUILD_LEVEL/ ]; then
-	echo "Creating build and S3 folders."
+	echo "Creating build folder."
 	mkdir -p $BASE/builds/$GIT_REPO-$GIT_BRANCH-$BUILD_LEVEL/
-	$BASE/pipelines/aws-s3-sync/sync.py update-manifest eyes-$DEPLOYMENT_LEVEL/$DEPLOYMENT_FOLDER_NAME
+	if [[($DEPLOYMENT_LEVEL != "local")]]; then
+		echo "Creating S3 folder."
+		$BASE/pipelines/aws-s3-sync/sync.py update-manifest eyes-$DEPLOYMENT_LEVEL/$DEPLOYMENT_FOLDER_NAME
+	fi
 fi
 
 # Build the app, which puts whatever it needs into the builds folder.
@@ -50,12 +53,22 @@ echo "Building the app."
 # Generate the version file.
 echo "$VERSION" > $BASE/builds/$GIT_REPO-$GIT_BRANCH-$BUILD_LEVEL/version.txt
 
-# AWS sync the files up to S3.
-echo "Uploading the built app to the S3 folder."
-$BASE/pipelines/aws-s3-sync/sync.py sync-s3-folder eyes-$DEPLOYMENT_LEVEL/$DEPLOYMENT_FOLDER_NAME $BASE/builds/$GIT_REPO-$GIT_BRANCH-$BUILD_LEVEL
+if [[($DEPLOYMENT_LEVEL != "local")]]; then
+	# AWS sync the files up to S3.
+	echo "Uploading the built app to the S3 folder."
+	$BASE/pipelines/aws-s3-sync/sync.py sync-s3-folder eyes-$DEPLOYMENT_LEVEL/$DEPLOYMENT_FOLDER_NAME $BASE/builds/$GIT_REPO-$GIT_BRANCH-$BUILD_LEVEL
 
-if [[($DEPLOYMENT_LEVEL = "production")]]; then
-	$BASE/pipelines/aws-s3-sync/invalidate.py E3JMG193HISS1S "/"$DEPLOYMENT_FOLDER_NAME"/*"
+	if [[($DEPLOYMENT_LEVEL = "production")]]; then
+		$BASE/pipelines/aws-s3-sync/invalidate.py E3JMG193HISS1S "/"$DEPLOYMENT_FOLDER_NAME"/*"
+	fi
+else
+	if [[($DEPLOYMENT_FOLDER_NAME =~ ^(apps|(assets/static)).*)]]; then
+		mkdir -p $BASE/www/$DEPLOYMENT_FOLDER_NAME/
+		rsync -rtv --delete $BASE/builds/$GIT_REPO-$GIT_BRANCH-$BUILD_LEVEL/ $BASE/www/$DEPLOYMENT_FOLDER_NAME/
+	else
+		echo "If installing locally, you must choose a deployment folder that starts with \"apps/\"."
+		exit 1
+	fi
 fi
 
 # Switch back to the called folder.
