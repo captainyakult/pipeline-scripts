@@ -4,8 +4,7 @@
 set -o pipefail
 
 # Set the environment.
-export PATH=/usr/local/gcc-4.9.0/bin:$HOME/pipelines/animdatagen/cspice/exe:/usr/local/bin:$PATH
-export LD_LIBRARY_PATH=/usr/local/gcc-4.9.0/lib64/
+export PATH=$HOME/pipelines/_external/cspice/exe:$PATH
 
 BASE=$(cd "$(dirname "$0")/../.."; pwd)
 
