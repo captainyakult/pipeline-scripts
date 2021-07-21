@@ -1,7 +1,7 @@
 MAILTO=vtad-pipelines@jpl.nasa.gov
 
 # asteroids pipeline
-0 2,8,14,20 * * * ~/pipeline/scripts/cron_run.sh ~/pipelines/scripts/asteroid_pipeline.sh
+0 2,8,14,20 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/asteroid_pipeline.sh
 # exo dev database pipeline
 0 * * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/update_exo_dev.sh
 # exo production database pipeline

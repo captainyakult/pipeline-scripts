@@ -4,7 +4,7 @@
 set -o pipefail
 
 # Set the environment.
-export PATH=$HOME/pipelines/_external/cspice/exe:$PATH
+export PATH=$HOME/pipelines/_external/cspice/exe:/usr/local/bin:$PATH
 
 BASE=$(cd "$(dirname "$0")/../.."; pwd)
 
@@ -19,7 +19,7 @@ if [[ $2 == "bg" ]]; then
 else
 	$1 2>&1 | $BASE/pipelines/logger/log.sh >> $LOG_FILE
 fi
-if [ $? -eq 1 ]; then
+if [ $? -ne 0 ]; then
 	echo "ERROR in script $1" >> $LOG_FILE
 	echo "ERROR in script $1. Please see the log file at $LOG_FILE." | mail -s Error vtad-pipelines@jpl.nasa.gov
 	exit 0
