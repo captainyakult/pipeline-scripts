@@ -10,6 +10,14 @@ BASE=$(cd "$(dirname "$0")/../.."; pwd)
 cd $BASE/pipelines/asteroids-pipeline
 python3 sync.py -v -o $BASE/sources/asteroids -os $BASE/sources/spice
 
+# Sync the folder to AWS.
+$BASE/pipelines/aws-s3-sync/sync.py sync-s3-folder eyes-dev/assets/dynamic/asteroids $BASE/sources/asteroids quiet
+$BASE/pipelines/aws-s3-sync/sync.py sync-s3-folder eyes-staging/assets/dynamic/asteroids $BASE/sources/asteroids quiet
+$BASE/pipelines/aws-s3-sync/sync.py sync-s3-folder eyes-production/assets/dynamic/asteroids $BASE/sources/asteroids quiet
+$BASE/pipelines/aws-s3-sync/invalidate.py E3JMG193HISS1S "/assets/dynamic/asteroids/*"
+
+sort -u -o $BASE/sources/asteroids/newly_generated_spks.txt $BASE/sources/asteroids/newly_generated_spks.txt
+
 # For every new spk, generate dynamo.
 while read F; do
         IFS=',' read -ra ITEMS <<< "$F"
@@ -33,15 +41,15 @@ while read F; do
 		EOM
 		# Run dynamo.
 		$BASE/pipelines/dynamogen/dynamogen --spice $BASE/sources/spice --output $BASE/sources/dynamo --config $BASE/sources/asteroids/$PIONEER_NAME.sun.orb.json
+		rm $BASE/sources/asteroids/$PIONEER_NAME.sun.orb.json
 		# Sync the dynamo folder to AWS.
+		echo "  Uploading to dev, staging, and production AWS..."
 		$BASE/pipelines/aws-s3-sync/sync.py sync-s3-folder eyes-dev/assets/dynamic/dynamo/$PIONEER_NAME $BASE/sources/dynamo/$PIONEER_NAME quiet
 		$BASE/pipelines/aws-s3-sync/sync.py sync-s3-folder eyes-staging/assets/dynamic/dynamo/$PIONEER_NAME $BASE/sources/dynamo/$PIONEER_NAME quiet
 		$BASE/pipelines/aws-s3-sync/sync.py sync-s3-folder eyes-production/assets/dynamic/dynamo/$PIONEER_NAME $BASE/sources/dynamo/$PIONEER_NAME quiet
 		$BASE/pipelines/aws-s3-sync/invalidate.py E3JMG193HISS1S "/assets/dynamic/dynamo/$PIONEER_NAME/*"
 done < $BASE/sources/asteroids/newly_generated_spks.txt
 
-# Sync the folder to AWS.
-$BASE/pipelines/aws-s3-sync/sync.py sync-s3-folder eyes-dev/assets/dynamic/asteroids $BASE/sources/asteroids quiet
-$BASE/pipelines/aws-s3-sync/sync.py sync-s3-folder eyes-staging/assets/dynamic/asteroids $BASE/sources/asteroids quiet
-$BASE/pipelines/aws-s3-sync/sync.py sync-s3-folder eyes-production/assets/dynamic/asteroids $BASE/sources/asteroids quiet
-$BASE/pipelines/aws-s3-sync/invalidate.py E3JMG193HISS1S "/assets/dynamic/asteroids/*"
+# Remove the newly_generated_spks list, since it is appended every time.
+rm $BASE/sources/asteroids/newly_generated_spks.txt
+
