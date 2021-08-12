@@ -37,9 +37,9 @@ fi
 echo "Using version $VERSION"
 
 # Create the build folder and s3 folder if needed.
-if [ ! -d $BASE/builds/$GIT_REPO-$GIT_BRANCH-$BUILD_LEVEL/ ]; then
+if [ ! -d $BASE/builds/$GIT_REPO-$DEPLOYMENT_LEVEL/ ]; then
 	echo "Creating build folder."
-	mkdir -p $BASE/builds/$GIT_REPO-$GIT_BRANCH-$BUILD_LEVEL/
+	mkdir -p $BASE/builds/$GIT_REPO-$DEPLOYMENT_LEVEL/
 	if [[($DEPLOYMENT_LEVEL != "local")]]; then
 		echo "Creating S3 folder."
 		$BASE/pipelines/aws-s3-sync/sync.py update-manifest eyes-$DEPLOYMENT_LEVEL/$DEPLOYMENT_FOLDER_NAME
@@ -48,15 +48,15 @@ fi
 
 # Build the app, which puts whatever it needs into the builds folder.
 echo "Building the app."
-./build.sh $BUILD_LEVEL $VERSION "$BASE/builds/$GIT_REPO-$GIT_BRANCH-$BUILD_LEVEL"
+./build.sh $BUILD_LEVEL $VERSION "$BASE/builds/$GIT_REPO-$DEPLOYMENT_LEVEL"
 
 # Generate the version file.
-echo "$VERSION" > $BASE/builds/$GIT_REPO-$GIT_BRANCH-$BUILD_LEVEL/version.txt
+echo "$VERSION" > $BASE/builds/$GIT_REPO-$DEPLOYMENT_LEVEL/version.txt
 
 if [[($DEPLOYMENT_LEVEL != "local")]]; then
 	# AWS sync the files up to S3.
 	echo "Uploading the built app to the S3 folder."
-	$BASE/pipelines/aws-s3-sync/sync.py sync-s3-folder eyes-$DEPLOYMENT_LEVEL/$DEPLOYMENT_FOLDER_NAME $BASE/builds/$GIT_REPO-$GIT_BRANCH-$BUILD_LEVEL
+	$BASE/pipelines/aws-s3-sync/sync.py sync-s3-folder eyes-$DEPLOYMENT_LEVEL/$DEPLOYMENT_FOLDER_NAME $BASE/builds/$GIT_REPO-$DEPLOYMENT_LEVEL
 
 	if [[($DEPLOYMENT_LEVEL = "production")]]; then
 		$BASE/pipelines/aws-s3-sync/invalidate.py E3JMG193HISS1S "/"$DEPLOYMENT_FOLDER_NAME"/*"
@@ -65,7 +65,7 @@ else
 	echo "Syncing the built app to the server www folder."
 	if [[($DEPLOYMENT_FOLDER_NAME =~ ^(apps|(assets/static)).*)]]; then
 		mkdir -p $BASE/www/$DEPLOYMENT_FOLDER_NAME/
-		rsync -rtv --delete $BASE/builds/$GIT_REPO-$GIT_BRANCH-$BUILD_LEVEL/ $BASE/www/$DEPLOYMENT_FOLDER_NAME/
+		rsync -rtv --delete $BASE/builds/$GIT_REPO-$DEPLOYMENT_LEVEL/ $BASE/www/$DEPLOYMENT_FOLDER_NAME/
 	else
 		echo "If installing locally, you must choose a deployment folder that starts with \"apps\" or \"assets/static\"."
 		exit 1
