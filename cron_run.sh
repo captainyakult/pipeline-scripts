@@ -13,6 +13,10 @@ LOG_FILE="${LOG_FILE##*/}"
 LOG_FILE="${LOG_FILE%.*}"
 LOG_FILE=$BASE/logs/$LOG_FILE.log
 
+# Make sure we are using a good cert file.
+export REQUESTS_CA_BUNDLE=$HOME/cert.pem
+export SSL_CERT_FILE=$HOME/cert.pem
+
 echo "Starting $1..." | $BASE/pipelines/logger/log.sh >> $LOG_FILE
 if [[ $2 == "bg" ]]; then
 	$1 2>&1 | $BASE/pipelines/logger/log.sh >> $LOG_FILE &
