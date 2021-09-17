@@ -1,5 +1,8 @@
 MAILTO=vtad-pipelines@jpl.nasa.gov
 
+
+# earth MB data pipeline
+15 1 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/update_earth_dev.sh
 # exo database pipeline
 0 */6 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/update_exo.sh
 # spice, animdata, and dynamo pipeline
