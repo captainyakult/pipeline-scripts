@@ -18,7 +18,6 @@ if [[ ($1 == 'production') ]]; then
 fi
 
 VITAL_URL=${API}'/api/v1/earth_now_vital_signs/?category=116'
-echo DIR $DIR
 echo VITAL_URL $VITAL_URL
 curl $VITAL_URL > $DIR/vital.json
 
@@ -31,4 +30,5 @@ echo MISSION_URL $MISSION_URL
 curl $MISSION_URL > $DIR/mission.json
 
 # Upload the files to AWS.
-# $AWS_S3_SYNC_DIR/sync.py sync-s3-folder $DIST $DIR
+echo 'syncing ' $DIR ' to ' $DIST
+$AWS_S3_SYNC_DIR/sync.py sync-s3-folder $DIST $DIR
