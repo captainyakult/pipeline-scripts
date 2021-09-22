@@ -13,6 +13,7 @@ AWS_S3_SYNC_DIR=$BASE/pipelines/aws-s3-sync
 DIST='eyes-dev/assets/dynamic/earth/api'
 CLOUDFRONT_PRODUCTION_ID=E3JMG193HISS1S
 
+echo 'ENV' $1
 if [[ ($1 == 'production') ]]; then
     DIR=$BASE'/sources/earth-api'
     DIST='eyes-production/assets/dynamic/earth/api'
