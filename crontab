@@ -23,3 +23,6 @@ MAILTO=vtad-pipelines@jpl.nasa.gov
 # EotSS Kiosk MSL Highlight
 42 0 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/msl_map.sh
 43 0 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/msl_photo.sh
+# Rotate AWS Credentials, if needed.
+0 23 */3 * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/rotate_aws_credentials.sh
+
