@@ -11,6 +11,7 @@ BASE=$(cd "$(dirname "$0")/../.."; pwd)
 DIR=$BASE'/sources/earth-api-dev'
 AWS_S3_SYNC_DIR=$BASE/pipelines/aws-s3-sync
 DIST='eyes-dev/assets/dynamic/earth/api'
+CLOUDFRONT_PRODUCTION_ID=E3JMG193HISS1S
 
 if [[ ($1 == 'production') ]]; then
     DIR=$BASE'/sources/earth-api'
@@ -33,3 +34,7 @@ curl $MISSION_URL > $DIR/mission.json
 # Upload the files to AWS.
 echo 'syncing ' $DIR ' to ' $DIST
 $AWS_S3_SYNC_DIR/sync.py sync-s3-folder $DIST $DIR
+
+if [[ ($1 == 'production') ]]; then
+    $AWS_S3_SYNC_DIR/invalidate.py $CLOUDFRONT_PRODUCTION_ID "/assets/dynamic/earth/api/*"
+fi
