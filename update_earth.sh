@@ -10,7 +10,7 @@ API='https://climate-4.client.mooreboeck.com'
 BASE=$(cd "$(dirname "$0")/../.."; pwd)
 DIR=$BASE'/sources/earth-api-dev'
 AWS_S3_SYNC_DIR=$BASE/pipelines/aws-s3-sync
-DIST='eyes-staging/assets/dynamic/earth/api'
+DIST='eyes-dev/assets/dynamic/earth/api'
 
 if [[ ($1 == 'production') ]]; then
     DIR=$BASE'/sources/earth-api'
