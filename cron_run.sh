@@ -11,9 +11,10 @@ BASE=$(cd "$(dirname "$0")/../.."; pwd)
 COMMAND=$1
 shift
 
-LOG_FILE=$COMMAND
+LOG_FILE="$COMMAND $@"
 LOG_FILE="${LOG_FILE##*/}"
 LOG_FILE="${LOG_FILE%.*}"
+LOG_FILE="${LOG_FILE// /_}"
 LOG_FILE=$BASE/logs/$LOG_FILE.log
 
 # Make sure we are using a good cert file.
