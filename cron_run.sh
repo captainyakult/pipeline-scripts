@@ -8,14 +8,18 @@ export PATH=$HOME/pipelines/_external/cspice/exe:/usr/local/bin:$PATH
 
 BASE=$(cd "$(dirname "$0")/../.."; pwd)
 
+# Store and remove the first param as the command from the rest so that $@ works.
 COMMAND=$1
 shift
 
-LOG_FILE="$COMMAND $@"
-LOG_FILE="${LOG_FILE##*/}"
-LOG_FILE="${LOG_FILE%.*}"
-LOG_FILE="${LOG_FILE// /_}"
-LOG_FILE=$BASE/logs/$LOG_FILE.log
+# Setup the log file path.
+LOG_FILE="$COMMAND"
+LOG_FILE="${LOG_FILE##*/}" # remove everything before the last slash
+LOG_FILE="${LOG_FILE%.*}" # remove everything after the last period
+LOG_FILE="$LOG_FILE $@" # add on the params
+LOG_FILE="${LOG_FILE%"${LOG_FILE##*[![:space:]]}"}" # trim trailing white space
+LOG_FILE="${LOG_FILE// /_}" # turn any spaces into underscores
+LOG_FILE=$BASE/logs/$LOG_FILE.log # prepend the log path
 
 # Make sure we are using a good cert file.
 export REQUESTS_CA_BUNDLE=$HOME/cert.pem
