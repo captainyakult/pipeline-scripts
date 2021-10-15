@@ -57,6 +57,8 @@ if [[ -f "$BASE/sources/asteroids/newly_generated_spks.txt" ]]; then
 			# Get the item info.
 			PIONEER_NAME=${ITEMS[0]}
 			NAIF_ID=${ITEMS[1]}
+			CA_TIME=${ITEMS[2]}
+			CA_DIST=${ITEMS[3]}
 			echo "Generating dynamo for $PIONEER_NAME..."
 			# Create the dynamo config.
 			cat > $BASE/sources/asteroids/small_solar_system_bodies.$PIONEER_NAME.sun.orb.json <<- EOM
@@ -75,6 +77,31 @@ if [[ -f "$BASE/sources/asteroids/newly_generated_spks.txt" ]]; then
 			# Run dynamo.
 			$BASE/pipelines/dynamogen/dynamogen --spice $BASE/sources/spice --output $BASE/sources/dynamo --config $BASE/sources/asteroids/small_solar_system_bodies.$PIONEER_NAME.sun.orb.json
 			rm $BASE/sources/asteroids/small_solar_system_bodies.$PIONEER_NAME.sun.orb.json
+			# If the next closest approach distance is less than 0.05 AU, make earth-relative dynamo for that approach as well.
+			if [ "$CA_DIST" -lt "7479893.535" ]; then
+				# Do the same for earth.
+				echo "Generating Earth-relative dynamo for $PIONEER_NAME..."
+				# Get the start and end times.
+				let "START_TIME=$CA_TIME - 604800"
+				let "END_TIME=$CA_TIME + 604800"
+				# Create the dynamo config.
+				cat > $BASE/sources/asteroids/small_solar_system_bodies.$PIONEER_NAME.earth.orb.json <<- EOM
+				{
+					"type" : "orb",
+					"body" : $NAIF_ID,
+					"otherBody" : 399,
+					"spiceDirs" : [
+						"lsk",
+						"celestial",
+						"small_solar_system_bodies/$PIONEER_NAME"
+					],
+					"limitedCoverage" : [$START_TIME, $END_TIME]
+				}
+				EOM
+				# Run dynamo.
+				$BASE/pipelines/dynamogen/dynamogen --spice $BASE/sources/spice --output $BASE/sources/dynamo --config $BASE/sources/asteroids/small_solar_system_bodies.$PIONEER_NAME.earth.orb.json
+				rm $BASE/sources/asteroids/small_solar_system_bodies.$PIONEER_NAME.earth.orb.json
+			fi
 			# Sync the dynamo folder to AWS.
 			echo "  Uploading to dev, staging, and production AWS..."
 			$BASE/pipelines/aws-s3-sync/sync.py sync-s3-folder eyes-dev/assets/dynamic/dynamo/small_solar_system_bodies/$PIONEER_NAME $BASE/sources/dynamo/small_solar_system_bodies/$PIONEER_NAME quiet
