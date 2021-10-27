@@ -67,13 +67,9 @@ for tle_name in $tle_list; do
 			$BASE/pipelines/dynamogen/dynamogen --spice $BASE/sources/spice --output $BASE/sources/dynamo --config $BASE/pipelines/dynamogen/config/tles/$pioneer_name.json
 			echo "    Uploading dynamo"
 			$AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyes-dev/assets/dynamic/dynamo/$pioneer_name $BASE/sources/dynamo/$pioneer_name quiet
-			echo "      1"
 			$AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyes-staging/assets/dynamic/dynamo/$pioneer_name $BASE/sources/dynamo/$pioneer_name quiet
-			echo "      3"
 			$AWS_S3_SYNC_DIR/sync.py sync-s3-folder eyes-production/assets/dynamic/dynamo/$pioneer_name $BASE/sources/dynamo/$pioneer_name quiet
-			echo "      4"
 			$AWS_S3_SYNC_DIR/invalidate.py $CLOUDFRONT_PRODUCTION_ID "/assets/dynamic/dynamo/$pioneer_name/*"
-			echo "      5"
 		fi
 	fi
 done
