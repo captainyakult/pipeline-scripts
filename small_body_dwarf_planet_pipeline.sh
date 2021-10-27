@@ -7,7 +7,7 @@ set -eo pipefail
 BASE=$(cd "$(dirname "$0")/../.."; pwd)
 
 # Launch the pipeline. It will also create newly_generated_spks.txt file for creating dynamos.
-cd $BASE/pipelines/asteroids-pipeline
+cd $BASE/pipelines/small-body-dwarf-planet-pipeline
 python3 sync_neos.py -v -o $BASE/sources/asteroids -os $BASE/sources/spice/small_solar_system_bodies
 
 if [[ -f "$BASE/sources/asteroids/newly_generated_spks.txt" ]]; then
