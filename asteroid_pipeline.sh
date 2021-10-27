@@ -41,12 +41,12 @@ if [[ -f "$BASE/sources/asteroids/newly_generated_spks.txt" ]]; then
 			$BASE/pipelines/dynamogen/dynamogen --spice $BASE/sources/spice --output $BASE/sources/dynamo --config $BASE/sources/asteroids/small_solar_system_bodies.$PIONEER_NAME.sun.orb.json
 			rm $BASE/sources/asteroids/small_solar_system_bodies.$PIONEER_NAME.sun.orb.json
 			# If the next closest approach distance is less than 0.05 AU, make earth-relative dynamo for that approach as well.
-			if [ "$CA_DIST" -lt "7479893.535" ]; then
+			if (( $(echo "$CA_DIST < 7479893.535" | bc -l) )); then
 				# Do the same for earth.
 				echo "Generating Earth-relative dynamo for $PIONEER_NAME..."
 				# Get the start and end times.
-				let "START_TIME=$CA_TIME - 604800"
-				let "END_TIME=$CA_TIME + 604800"
+				START_TIME=$(echo "$CA_TIME - 604800" | bc)
+				END_TIME=$(echo "$CA_TIME + 604800" | bc)
 				# Create the dynamo config.
 				cat > $BASE/sources/asteroids/small_solar_system_bodies.$PIONEER_NAME.earth.orb.json <<- EOM
 				{
