@@ -3,8 +3,8 @@ MAILTO=vtad-pipelines@jpl.nasa.gov
 # earth MB data pipeline
 */30 * * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/update_earth.sh
 */30 * * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/update_earth.sh production
-# small-body-dwarf-planet pipeline
-0 2,8,14,20 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/small_body_dwarf_planet_pipeline.sh
+# ssd-pipeline
+0 2,8,14,20 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/ssd_pipeline.sh
 # exo dev database pipeline
 0 * * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/update_exo_dev.sh
 # exo production database pipeline
