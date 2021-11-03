@@ -41,7 +41,7 @@ if [[ -f "$BASE/sources/ssd/newly_generated_spks.txt" ]]; then
 			$BASE/pipelines/dynamogen/dynamogen --spice $BASE/sources/spice --output $BASE/sources/dynamo --config $BASE/sources/ssd/ssd.$PIONEER_NAME.sun.orb.json
 			rm $BASE/sources/ssd/ssd.$PIONEER_NAME.sun.orb.json
 			# If the next closest approach distance is less than 0.05 AU, make earth-relative dynamo for that approach as well.
-			if (( $(echo "$CA_DIST < 7479893.535" | bc -l) )); then
+			if (( $(echo "$CA_DIST < 7479893.53455" | bc -l) )); then
 				# Do the same for earth.
 				echo "Generating Earth-relative dynamo for $PIONEER_NAME..."
 				# Get the start and end times.
