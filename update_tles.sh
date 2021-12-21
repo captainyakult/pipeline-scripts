@@ -50,14 +50,15 @@ for tle_name in $tle_list; do
 		if [ -f $BASE/pipelines/animdatagen/config/tles/$pioneer_name.json ]; then
 			echo "    spk -> animdata"
 			$BASE/pipelines/animdatagen/animdatagen --spice $BASE/sources/spice --output $BASE/sources/animdata --config $BASE/pipelines/animdatagen/config/tles/$pioneer_name.json
-			echo "    Uploading animdata"
+			echo "    Uploading animdata to bh2"
 			ssh -n -q pipeline@blackhawk2 "mkdir -p /var/server/master/spice/$pioneer_name/"
 			scp -r -p -q $BASE/sources/animdata/$pioneer_name/* pipeline@blackhawk2:/var/server/master/spice/$pioneer_name/
 			ssh -n -q pipeline@blackhawk2 "mkdir -p /var/server/staging/spice/$pioneer_name/"
 			scp -r -p -q $BASE/sources/animdata/$pioneer_name/* pipeline@blackhawk2:/var/server/staging/spice/$pioneer_name/
-			$AWS_S3_SYNC_DIR/sync.py upload-folder eyesstage/server/spice/$pioneer_name $BASE/sources/animdata/$pioneer_name quiet
 			ssh -n -q pipeline@blackhawk2 "mkdir -p /var/server/production/spice/$pioneer_name/"
 			scp -r -p -q $BASE/sources/animdata/$pioneer_name/* pipeline@blackhawk2:/var/server/production/spice/$pioneer_name/
+			echo "    Uploading animdata to AWS"
+			$AWS_S3_SYNC_DIR/sync.py upload-folder eyesstage/server/spice/$pioneer_name $BASE/sources/animdata/$pioneer_name quiet
 			$AWS_S3_SYNC_DIR/sync.py upload-folder eyesstatic/server/spice/$pioneer_name $BASE/sources/animdata/$pioneer_name quiet
 			$AWS_S3_SYNC_DIR/invalidate.py $CLOUDFRONT_PRODUCTION_ID "/server/spice/"$pioneer_name"/*"
 		fi
