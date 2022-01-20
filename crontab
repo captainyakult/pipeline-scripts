@@ -1,5 +1,7 @@
 MAILTO=vtad-pipelines@jpl.nasa.gov
 
+# position pipeline
+*/5 * * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/position_pipeline.sh
 # earth MB data pipeline
 */30 * * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/update_earth.sh
 */30 * * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/update_earth.sh production
