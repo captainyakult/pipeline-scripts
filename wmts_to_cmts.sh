@@ -20,17 +20,17 @@ else
 fi
 
 # Make a unique folder.
-WMTS_TO_CMTS_DIR=$BASE/tmp/$RANDOM
+WMTS_TO_CMTS_DIR=$BASE/temp/$RANDOM
 
 # Run wmts-to-cmts
-cd $BASE/pipelines/wmts-to-cmts
+cd $BASE/code/wmts-to-cmts
 ./wmts-to-cmts.sh \
 	--dim "Time=$TODAY" \
 	--input configs/$1.json \
 	--output $WMTS_TO_CMTS_DIR
 
 # Run cmts-creator.
-cd $BASE/pipelines/cmts-creator
+cd $BASE/code/cmts-creator
 ./cmts-creator.sh \
 	--input $WMTS_TO_CMTS_DIR/configuration.json \
 	--output $BASE/data/cmts/wmts/$1/$TODAY
