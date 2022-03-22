@@ -1,31 +1,31 @@
-MAILTO=vtad-pipelines@jpl.nasa.gov
+@reboot cd $HOME/code/https-server && ./run.sh
 
 # position pipeline
-*/5 * * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/position_pipeline.sh
+# */5 * * * * ~/code/scripts/cron_run.sh ~/code/scripts/position_pipeline.sh
 # earth MB data pipeline
-*/30 * * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/update_earth.sh
-*/30 * * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/update_earth.sh production
+# */30 * * * * ~/code/scripts/cron_run.sh ~/code/scripts/update_earth.sh
+# */30 * * * * ~/code/scripts/cron_run.sh ~/code/scripts/update_earth.sh production
 # ssd-pipeline
-0 10,22 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/ssd_pipeline.sh
+# 0 10,22 * * * ~/code/scripts/cron_run.sh ~/code/scripts/ssd_pipeline.sh
 # exo dev database pipeline
-0 * * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/update_exo_dev.sh
+# 0 * * * * ~/code/scripts/cron_run.sh ~/code/scripts/update_exo_dev.sh
 # exo production database pipeline
-0 */4 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/update_exo.sh
+# 0 */4 * * * ~/code/scripts/cron_run.sh ~/code/scripts/update_exo.sh
 # spice, animdata, and dynamo pipeline
-0 1,13 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/update_spice.sh
+# 0 1,13 * * * ~/code/scripts/cron_run.sh ~/code/scripts/update_spice.sh
 # tle local pipeline
-15 0 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/update_local_tles.sh
+# 15 0 * * * ~/code/scripts/cron_run.sh ~/code/scripts/update_local_tles.sh
 # tle pipeline
-30 */6 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/update_tles.sh
+# 30 */6 * * * ~/code/scripts/cron_run.sh ~/code/scripts/update_tles.sh
 # dsn now map generator
-*/5 * * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/dsn_now_map_gen.sh
+# */5 * * * * ~/code/scripts/cron_run.sh ~/code/scripts/dsn_now_map_gen.sh
 # DSN Schedule Pipeline
-0 */6 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/dsn_schedule_pipeline.sh
+0 */6 * * * ~/code/scripts/cron_run.sh ~/code/scripts/dsn_schedule_pipeline.sh
 # DSN XML Pipeline
-# 0 6 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/dsn_xml_pipeline.sh bg
+# 0 6 * * * ~/code/scripts/cron_run.sh ~/code/scripts/dsn_xml_pipeline.sh bg
 # EotSS Kiosk MSL Highlight
-42 0 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/msl_map.sh
-43 0 * * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/msl_photo.sh
+# 42 0 * * * ~/code/scripts/cron_run.sh ~/code/scripts/msl_map.sh
+# 43 0 * * * ~/code/scripts/cron_run.sh ~/code/scripts/msl_photo.sh
 # Rotate AWS Credentials, if needed.
-0 23 */3 * * ~/pipelines/scripts/cron_run.sh ~/pipelines/scripts/rotate_aws_credentials.sh
+# 0 23 */3 * * ~/code/scripts/cron_run.sh ~/code/scripts/rotate_aws_credentials.sh
 

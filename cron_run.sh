@@ -3,7 +3,7 @@
 # Fail on any error.
 set -o pipefail
 
-BASE=$(cd "$(dirname "$0")/../.."; pwd)
+export BASE=$(cd "$(dirname "$0")/../.."; pwd)
 
 # Store and remove the first param as the command from the rest so that $@ works.
 COMMAND=$1
@@ -32,7 +32,7 @@ run $COMMAND "$@"
 
 if [ $? -ne 0 ]; then
 	run echo "ERROR in script $COMMAND"
-	echo "ERROR in script $COMMAND. Please see the log file at $LOG_FILE." | mail -s Error vtad-pipelines@jpl.nasa.gov
+	echo "ERROR in script $COMMAND. Please see the log file at $LOG_FILE." | mail -s Error vtad-pipelines@jpl.nasa.gov hurley@jpl.nasa.gov
 	exit 0
 fi
 run echo Completed $COMMAND.
