@@ -9,9 +9,9 @@ BASE=$(cd "$(dirname "$0")/../.."; pwd)
 # Start the dsn data pipeline, if it isn't already running.
 if [[ `ps -ef | grep "docker run .* dsn-data-pipeline" | grep -v grep` == "" ]]; then
 	echo "Starting pipeline."
-	# $BASE/code/dsn-data-pipeline/build.sh
-	# $BASE/code/dsn-data-pipeline/run.sh TSTEOTSS $BASE/data/dsn/data clean
-	# $BASE/code/dsn-data-pipeline/run.sh TSTEOTSS $BASE/data/dsn/data &
+	$BASE/code/dsn-data-pipeline/build.sh
+	$BASE/code/dsn-data-pipeline/run.sh TSTEOTSS $BASE/data/dsn/data clean
+	$BASE/code/dsn-data-pipeline/run.sh TSTEOTSS $BASE/data/dsn/data &
 fi
 
 # Create the folders if they don't exist.
