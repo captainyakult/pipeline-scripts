@@ -22,20 +22,20 @@ LOG_FILE=$BASE/logs/$LOG_FILE.log # prepend the log path
 export REQUESTS_CA_BUNDLE=$HOME/data/cert.pem
 export SSL_CERT_FILE=$HOME/data/cert.pem
 
-echo "Starting $COMMAND..." | ./log.sh >> $LOG_FILE
+echo "Starting $COMMAND..." | $BASE/code/scripts/log.sh >> $LOG_FILE
 
 if [[ $2 == "bg" ]]; then
         shift
-        $COMMAND "$@" 2>&1 | ./log.sh >> $LOG_FILE &
+        $COMMAND "$@" 2>&1 | $BASE/code/scripts/log.sh >> $LOG_FILE &
 else
-        $COMMAND "$@" 2>&1 | ./log.sh >> $LOG_FILE
+        $COMMAND "$@" 2>&1 | $BASE/code/scripts/log.sh >> $LOG_FILE
 fi
 
 if [ $? -ne 0 ]; then
-	echo "ERROR in script $COMMAND" >> $LOG_FILE
+	echo "ERROR in script $COMMAND" | $BASE/code/scripts/log.sh >> $LOG_FILE
 	echo "ERROR in script $COMMAND. Please see the log file at $LOG_FILE." | mail -s Error vtad-pipelines@jpl.nasa.gov hurley@jpl.nasa.gov
 	exit 0
 fi
 
-echo "Completed $COMMAND" | ./log.sh >> $LOG_FILE
+echo "Completed $COMMAND" | $BASE/code/scripts/log.sh >> $LOG_FILE
 
