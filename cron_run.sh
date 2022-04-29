@@ -19,21 +19,23 @@ LOG_FILE="${LOG_FILE// /_}" # turn any spaces into underscores
 LOG_FILE=$BASE/logs/$LOG_FILE.log # prepend the log path
 
 # Make sure we are using a good cert file.
-export REQUESTS_CA_BUNDLE=$HOME/cert.pem
-export SSL_CERT_FILE=$HOME/cert.pem
+export REQUESTS_CA_BUNDLE=$HOME/data/cert.pem
+export SSL_CERT_FILE=$HOME/data/cert.pem
 
-function run {
-	"$@" 2>&1 | awk '{ print strftime("%Y-%m-%d %H:%M:%S"), $0; fflush(); }' >> $LOG_FILE
-}
+echo "Starting $COMMAND..." | ./log.sh >> $LOG_FILE
 
-run echo Starting $COMMAND
-
-run $COMMAND "$@"
+if [[ $2 == "bg" ]]; then
+        shift
+        $COMMAND "$@" 2>&1 | ./log.sh >> $LOG_FILE &
+else
+        $COMMAND "$@" 2>&1 | ./log.sh >> $LOG_FILE
+fi
 
 if [ $? -ne 0 ]; then
-	run echo "ERROR in script $COMMAND"
+	echo "ERROR in script $COMMAND" >> $LOG_FILE
 	echo "ERROR in script $COMMAND. Please see the log file at $LOG_FILE." | mail -s Error vtad-pipelines@jpl.nasa.gov hurley@jpl.nasa.gov
 	exit 0
 fi
-run echo Completed $COMMAND.
+
+echo "Completed $COMMAND" | ./log.sh >> $LOG_FILE
 
