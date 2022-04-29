@@ -26,9 +26,6 @@ while true; do
 
 	if [[ "$ATIME" != "$LTIME" ]]; then
 
-		# echo "Updating $ATIME"
-		echo $ATIME "("`date -d @$ATIME`")" "("`date`")"
-
 		# Copy the data to a temp folder. This prevents race conflicts between uploading the file and the file changing.
 		mkdir -p $BASE/temp/dsn-data
 		rsync -rtvq $BASE/data/dsn/data/ $BASE/temp/dsn-data/
@@ -37,7 +34,7 @@ while true; do
 		rsync -rtvq $BASE/temp/dsn-data/dsn.xml $BASE/data/dsn/data-archive/$ATIME.xml
 
 		# AWS sync the folder up to S3.
-		$BASE/code/aws-s3-sync/sync.sh upload-folder eyes-dev/assets/dynamic/dsn/data $BASE/temp/dsn-data/
+		$BASE/code/aws-s3-sync/sync.sh upload-folder eyes-dev/assets/dynamic/dsn/data $BASE/temp/dsn-data/ quiet
 
 		LTIME=$ATIME
 	fi
