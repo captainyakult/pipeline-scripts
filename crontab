@@ -1,4 +1,5 @@
 @reboot cd $HOME/code/https-server && ./run.sh
+@reboot ~/code/scripts/cron_run.sh ~/code/scripts/dsn_data_pipeline.sh
 
 # position pipeline
 # */5 * * * * ~/code/scripts/cron_run.sh ~/code/scripts/position_pipeline.sh
