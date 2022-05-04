@@ -36,6 +36,9 @@ while true; do
 		# AWS sync the folder up to S3.
 		$BASE/code/aws-s3-sync/sync.sh upload-folder eyes-dev/assets/dynamic/dsn/data $BASE/temp/dsn-data/ quiet
 
+		# AWS sync the folder up to S3.
+		$BASE/code/aws-s3-sync/sync.sh upload-folder dsnxml/dsn/data $BASE/temp/dsn-data/ quiet
+
 		LTIME=$ATIME
 	fi
 	sleep 1
