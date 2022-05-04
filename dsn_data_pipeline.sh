@@ -34,7 +34,7 @@ while true; do
 		rsync -rtvq $BASE/temp/dsn-data/dsn.xml $BASE/data/dsn/data-archive/$ATIME.xml
 
 		# AWS sync the folder up to S3.
-		$BASE/code/aws-s3-sync/sync.sh upload-folder eyes-dev/assets/dynamic/dsn/data $BASE/temp/dsn-data/ quiet
+		$BASE/code/aws-s3-sync/sync.sh upload-folder eyes-production/assets/dynamic/dsn/data $BASE/temp/dsn-data/ quiet
 
 		# AWS sync the folder up to S3.
 		$BASE/code/aws-s3-sync/sync.sh upload-folder dsnxml/dsn/data $BASE/temp/dsn-data/ quiet
