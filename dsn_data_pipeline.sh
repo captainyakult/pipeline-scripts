@@ -44,8 +44,3 @@ while true; do
 	sleep 1
 done
 
-echo $LTIME
-
-# # AWS sync the files up to S3.
-# echo "Uploading the built app to the S3 folder."
-# $BASE/code/aws-s3-sync/sync.sh upload-s3-folder eyes-dev/assets/dynamic/dsn/data dsn.xml
