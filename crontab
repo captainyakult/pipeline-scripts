@@ -13,7 +13,7 @@
 # exo production database pipeline
 # 0 */4 * * * ~/code/scripts/cron_run.sh ~/code/scripts/update_exo.sh
 # spice, animdata, and dynamo pipeline
-# 0 1,13 * * * ~/code/scripts/cron_run.sh ~/code/scripts/update_spice.sh
+0 1,13 * * * ~/code/scripts/cron_run.sh ~/code/scripts/update_spice.sh
 # tle local pipeline
 # 15 0 * * * ~/code/scripts/cron_run.sh ~/code/scripts/update_local_tles.sh
 # tle pipeline
