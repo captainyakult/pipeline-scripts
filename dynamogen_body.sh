@@ -7,4 +7,4 @@ set -eo pipefail
 BASE=$(cd "$(dirname "$0")/../.."; pwd)
 
 # Run the dynamogen.
-$BASE/pipelines/dynamogen/dynamogen --verbose --spice $BASE/sources/spice --output $BASE/sources/dynamo --config $BASE/pipelines/dynamogen/config/$1.json
+$BASE/code/dynamogen/dynamogen.sh --verbose --spice $BASE/data/spice --output $BASE/data/dynamo --config $BASE/code/dynamogen/config/$1.json
