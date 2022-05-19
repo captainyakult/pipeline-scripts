@@ -34,13 +34,13 @@ $BASE/code/spice-syncer/sync.sh -d $SPICE -u $LOGS/spice_syncer_updated_spice.lo
 # Run animdatagen.
 echo "  Running animdatagen..."
 pushd $BASE/code/animdatagen > /dev/null
-$BASE/code/animdatagen/animdatagen.sh --update --spice $SPICE --output $ANIMDATA --list $LOGS/spice_syncer_updated_spice.log --updatedAnimdataFile $LOGS/animdatagen_updated_animdata.log | sed 's/^/    /'
+$BASE/code/animdatagen/animdatagen.sh --update --spice $SPICE --output $ANIMDATA --list $LOGS/spice_syncer_updated_spice.log --updatedAnimdataFile $LOGS/animdatagen_updated_animdata.log
 popd > /dev/null
 
 # Run dynamogen.
 echo "  Running dynamogen..."
 pushd $BASE/code/dynamogen > /dev/null
-$BASE/code/dynamogen/dynamogen.sh --update --spice $SPICE --output $DYNAMO --list $LOGS/spice_syncer_updated_spice.log --updatedFile $LOGS/dynamogen_updated_dynamo.log | sed 's/^/    /'
+$BASE/code/dynamogen/dynamogen.sh --update --spice $SPICE --output $DYNAMO --list $LOGS/spice_syncer_updated_spice.log --updatedFile $LOGS/dynamogen_updated_dynamo.log
 popd > /dev/null
 rm -f $LOGS/spice_syncer_updated_spice.log
 
