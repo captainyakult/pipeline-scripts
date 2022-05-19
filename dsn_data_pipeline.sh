@@ -10,8 +10,8 @@ BASE=$(cd "$(dirname "$0")/../.."; pwd)
 if [[ `ps -ef | grep "docker run .* dsn-data-pipeline" | grep -v grep` == "" ]]; then
 	echo "Starting pipeline."
 	$BASE/code/dsn-data-pipeline/build.sh
-	$BASE/code/dsn-data-pipeline/run.sh TSTEOTSS $BASE/data/dsn/data clean
-	$BASE/code/dsn-data-pipeline/run.sh TSTEOTSS $BASE/data/dsn/data &
+	$BASE/code/dsn-data-pipeline/run.sh EOTSS $BASE/data/dsn/data clean
+	$BASE/code/dsn-data-pipeline/run.sh EOTSS $BASE/data/dsn/data &
 fi
 
 # Create the folders if they don't exist.
@@ -35,9 +35,6 @@ while true; do
 
 		# AWS sync the folder up to S3.
 		$BASE/code/aws-s3-sync/sync.sh upload-folder eyes-production/assets/dynamic/dsn/data $BASE/temp/dsn-data/ quiet
-
-		# AWS sync the folder up to S3.
-		$BASE/code/aws-s3-sync/sync.sh upload-folder dsnxml/dsn/data $BASE/temp/dsn-data/ quiet
 
 		LTIME=$ATIME
 	fi
