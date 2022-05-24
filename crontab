@@ -25,7 +25,7 @@
 # DSN XML Pipeline
 # 0 6 * * * ~/code/scripts/cron_run.sh ~/code/scripts/dsn_xml_pipeline.sh bg
 # EotSS Kiosk MSL Highlight
-# 42 0 * * * ~/code/scripts/cron_run.sh ~/code/scripts/msl_map.sh
+# 42 0 * * * ~/code/scripts/cron_run.sh ~/code/scripts/msl_ground_map.sh
 # 43 0 * * * ~/code/scripts/cron_run.sh ~/code/scripts/msl_photo.sh
 # Rotate AWS Credentials, if needed.
 # 0 23 */3 * * ~/code/scripts/cron_run.sh ~/code/scripts/rotate_aws_credentials.sh
