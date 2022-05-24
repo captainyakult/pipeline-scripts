@@ -74,7 +74,7 @@ done
 mv $TLE_DIR/merged_new.txt $TLE_DIR/merged.txt
 
 # Copy tle_syncer/names.txt to the folder.
-rsync -rtv $TLE_SYNCER_DIR/names.txt $TLE_DIR
+rsync -rtq $TLE_SYNCER_DIR/names.txt $TLE_DIR
 
 # Upload the TLE list files to AWS.
 echo "Uploading TLE list files to AWS."

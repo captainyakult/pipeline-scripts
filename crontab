@@ -15,9 +15,9 @@
 # spice, animdata, and dynamo pipeline
 0 1,13 * * * ~/code/scripts/cron_run.sh ~/code/scripts/update_spice.sh
 # tle local pipeline
-# 15 0 * * * ~/code/scripts/cron_run.sh ~/code/scripts/update_local_tles.sh
+15 0 * * * ~/code/scripts/cron_run.sh ~/code/scripts/update_local_tles.sh
 # tle pipeline
-# 30 */6 * * * ~/code/scripts/cron_run.sh ~/code/scripts/update_tles.sh
+30 */6 * * * ~/code/scripts/cron_run.sh ~/code/scripts/update_tles.sh
 # DSN Now Map Generator
 */5 * * * * ~/code/scripts/cron_run.sh ~/code/scripts/dsn_now_map_gen.sh
 # DSN Schedule Pipeline
