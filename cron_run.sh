@@ -18,24 +18,39 @@ LOG_FILE="${LOG_FILE%"${LOG_FILE##*[![:space:]]}"}" # trim trailing white space
 LOG_FILE="${LOG_FILE// /_}" # turn any spaces into underscores
 LOG_FILE=$BASE/logs/$LOG_FILE.log # prepend the log path
 
-# Make sure we are using a good cert file.
-export REQUESTS_CA_BUNDLE=$HOME/data/cert.pem
-export SSL_CERT_FILE=$HOME/data/cert.pem
+# # Make sure we are using a good cert file.
+# export REQUESTS_CA_BUNDLE=$HOME/data/cert.pem
+# export SSL_CERT_FILE=$HOME/data/cert.pem
 
-echo "Starting $COMMAND..." | $BASE/code/scripts/log.sh >> $LOG_FILE
+function log_error {
+	echo "$1" | $BASE/code/scripts/log.sh >> $LOG_FILE
+	echo "$1. Please see the log file at $LOG_FILE." | mail -s Error vtad-pipelines@jpl.nasa.gov hurley@jpl.nasa.gov
+}
 
-if [[ $2 == "bg" ]]; then
-        shift
-        $COMMAND "$@" 2>&1 | $BASE/code/scripts/log.sh >> $LOG_FILE &
-else
-        $COMMAND "$@" 2>&1 | $BASE/code/scripts/log.sh >> $LOG_FILE
-fi
+# Lock the code so that it never runs more then once at a time.
+(
+	flock -n 99 || {
+		log_error "ERROR: Could not start script. The script is already running."
+		exit 0
+	}
 
-if [ $? -ne 0 ]; then
-	echo "ERROR in script $COMMAND" | $BASE/code/scripts/log.sh >> $LOG_FILE
-	echo "ERROR in script $COMMAND. Please see the log file at $LOG_FILE." | mail -s Error vtad-pipelines@jpl.nasa.gov hurley@jpl.nasa.gov
-	exit 0
-fi
+	echo "Starting $COMMAND..." | $BASE/code/scripts/log.sh >> $LOG_FILE
 
-echo "Completed $COMMAND" | $BASE/code/scripts/log.sh >> $LOG_FILE
+	if [[ $2 == "bg" ]]; then
+		shift
+		$COMMAND "$@" 2>&1 | $BASE/code/scripts/log.sh >> $LOG_FILE &
+	else
+		$COMMAND "$@" 2>&1 | $BASE/code/scripts/log.sh >> $LOG_FILE
+	fi
+
+	if [ $? -ne 0 ]; then
+		log_error "ERROR in script $COMMAND"
+		echo "ERROR in script $COMMAND" | $BASE/code/scripts/log.sh >> $LOG_FILE
+		echo "ERROR in script $COMMAND. Please see the log file at $LOG_FILE." | mail -s Error vtad-pipelines@jpl.nasa.gov hurley@jpl.nasa.gov
+		exit 0
+	fi
+
+	echo "Completed $COMMAND" | $BASE/code/scripts/log.sh >> $LOG_FILE
+
+) 99>/var/lock/`basename $COMMAND`
 
