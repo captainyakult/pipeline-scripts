@@ -3,11 +3,6 @@
 # Fail on any error.
 set -eo pipefail
 
-# Check if it's already running...
-if [ "$(ps -ef | grep "scripts/update_tles" | grep -v grep | wc -l)" -gt "3" ]; then
-	exit 0
-fi
-
 # Get the base folder of the system.
 BASE=$(cd "$(dirname "$0")/../.."; pwd)
 TLE_SYNCER_DIR=$BASE/code/tle-syncer

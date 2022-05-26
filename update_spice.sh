@@ -12,20 +12,6 @@ ANIMDATA=$BASE/data/animdata
 DYNAMO=$BASE/data/dynamo
 CLOUDFRONT_PRODUCTION_ID=E3JMG193HISS1S
 LOGS=$BASE/logs
-LOCK_FOLDER=/tmp/update_spice.lock
-
-# Function to remove the lock folder.
-function clean_lock {
-	if !(rmdir $LOCK_FOLDER); then
-		exit 1
-	fi
-}
-
-# Return if it is already running.
-if !(mkdir $LOCK_FOLDER); then
-	exit 1
-fi
-trap "clean_lock" EXIT
 
 # Run spice-syncer.
 echo "  Running spice-syncer..."
