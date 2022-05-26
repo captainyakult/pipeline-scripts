@@ -45,8 +45,6 @@ function log_error {
 
 	if [ $? -ne 0 ]; then
 		log_error "ERROR in script $COMMAND"
-		echo "ERROR in script $COMMAND" | $BASE/code/scripts/log.sh >> $LOG_FILE
-		echo "ERROR in script $COMMAND. Please see the log file at $LOG_FILE." | mail -s Error vtad-pipelines@jpl.nasa.gov hurley@jpl.nasa.gov
 		exit 0
 	fi
 
