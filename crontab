@@ -21,12 +21,10 @@
 # DSN Now Map Generator
 */5 * * * * ~/code/scripts/cron_run.sh ~/code/scripts/dsn_now_map_gen.sh
 # DSN Schedule Pipeline
-0 */6 * * * ~/code/scripts/cron_run.sh ~/code/scripts/dsn_schedule_pipeline.sh
-# DSN XML Pipeline
-# 0 6 * * * ~/code/scripts/cron_run.sh ~/code/scripts/dsn_xml_pipeline.sh bg
+# 0 */6 * * * ~/code/scripts/cron_run.sh ~/code/scripts/dsn_schedule_pipeline.sh
 # EotSS Kiosk MSL Highlight
-# 42 0 * * * ~/code/scripts/cron_run.sh ~/code/scripts/msl_ground_map.sh
-# 43 0 * * * ~/code/scripts/cron_run.sh ~/code/scripts/msl_photo.sh
+42 0 * * * ~/code/scripts/cron_run.sh ~/code/scripts/msl_ground_map.sh
+43 0 * * * ~/code/scripts/cron_run.sh ~/code/scripts/msl_photo_fetch.sh
 # Rotate AWS Credentials, if needed.
 # 0 23 */3 * * ~/code/scripts/cron_run.sh ~/code/scripts/rotate_aws_credentials.sh
 
