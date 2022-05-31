@@ -43,14 +43,14 @@ for tle_name in $tle_list; do
 			echo "    Uploading animdata to bh2"
 			ssh -n -q pipeline@blackhawk2 "mkdir -p /var/server/master/spice/$eyes_name/"
 			scp -r -p -q $BASE/data/animdata/$eyes_name/* pipeline@blackhawk2:/var/server/master/spice/$eyes_name/
-			# ssh -n -q pipeline@blackhawk2 "mkdir -p /var/server/staging/spice/$eyes_name/"
-			# scp -r -p -q $BASE/data/animdata/$eyes_name/* pipeline@blackhawk2:/var/server/staging/spice/$eyes_name/
-			# ssh -n -q pipeline@blackhawk2 "mkdir -p /var/server/production/spice/$eyes_name/"
-			# scp -r -p -q $BASE/data/animdata/$eyes_name/* pipeline@blackhawk2:/var/server/production/spice/$eyes_name/
+			ssh -n -q pipeline@blackhawk2 "mkdir -p /var/server/staging/spice/$eyes_name/"
+			scp -r -p -q $BASE/data/animdata/$eyes_name/* pipeline@blackhawk2:/var/server/staging/spice/$eyes_name/
+			ssh -n -q pipeline@blackhawk2 "mkdir -p /var/server/production/spice/$eyes_name/"
+			scp -r -p -q $BASE/data/animdata/$eyes_name/* pipeline@blackhawk2:/var/server/production/spice/$eyes_name/
 			echo "    Uploading animdata to AWS"
-			# $AWS_S3_SYNC_DIR/sync.sh upload-folder eyesstage/server/spice/$eyes_name $BASE/data/animdata/$eyes_name quiet
-			# $AWS_S3_SYNC_DIR/sync.sh upload-folder eyesstatic/server/spice/$eyes_name $BASE/data/animdata/$eyes_name quiet
-			# $AWS_S3_SYNC_DIR/invalidate.sh $CLOUDFRONT_PRODUCTION_ID "/server/spice/"$eyes_name"/*"
+			$AWS_S3_SYNC_DIR/sync.sh upload-folder eyesstage/server/spice/$eyes_name $BASE/data/animdata/$eyes_name quiet
+			$AWS_S3_SYNC_DIR/sync.sh upload-folder eyesstatic/server/spice/$eyes_name $BASE/data/animdata/$eyes_name quiet
+			$AWS_S3_SYNC_DIR/invalidate.sh $CLOUDFRONT_PRODUCTION_ID "/server/spice/"$eyes_name"/*"
 		fi
 		# Create and upload the dynamo.
 		if [ -f $BASE/code/dynamogen/config/tles/$eyes_name.json ]; then
@@ -58,9 +58,9 @@ for tle_name in $tle_list; do
 			$BASE/code/dynamogen/dynamogen.sh --spice $BASE/data/spice --output $BASE/data/dynamo --config $BASE/code/dynamogen/config/tles/$eyes_name.json
 			echo "    Uploading dynamo"
 			$AWS_S3_SYNC_DIR/sync.sh sync-s3-folder eyes-dev/assets/dynamic/dynamo/$eyes_name $BASE/data/dynamo/$eyes_name quiet
-			# $AWS_S3_SYNC_DIR/sync.sh sync-s3-folder eyes-staging/assets/dynamic/dynamo/$eyes_name $BASE/data/dynamo/$eyes_name quiet
-			# $AWS_S3_SYNC_DIR/sync.sh sync-s3-folder eyes-production/assets/dynamic/dynamo/$eyes_name $BASE/datas/dynamo/$eyes_name quiet
-			# $AWS_S3_SYNC_DIR/invalidate.sh $CLOUDFRONT_PRODUCTION_ID "/assets/dynamic/dynamo/$eyes_name/*"
+			$AWS_S3_SYNC_DIR/sync.sh sync-s3-folder eyes-staging/assets/dynamic/dynamo/$eyes_name $BASE/data/dynamo/$eyes_name quiet
+			$AWS_S3_SYNC_DIR/sync.sh sync-s3-folder eyes-production/assets/dynamic/dynamo/$eyes_name $BASE/datas/dynamo/$eyes_name quiet
+			$AWS_S3_SYNC_DIR/invalidate.sh $CLOUDFRONT_PRODUCTION_ID "/assets/dynamic/dynamo/$eyes_name/*"
 		fi
 	fi
 done
@@ -74,8 +74,8 @@ rsync -rtq $TLE_SYNCER_DIR/names.txt $TLE_DIR
 # Upload the TLE list files to AWS.
 echo "Uploading TLE list files to AWS."
 $AWS_S3_SYNC_DIR/sync.sh sync-s3-folder eyes-dev/assets/dynamic/tle $TLE_DIR quiet
-# $AWS_S3_SYNC_DIR/sync.sh sync-s3-folder eyes-staging/assets/dynamic/tle $TLE_DIR quiet
-# $AWS_S3_SYNC_DIR/sync.sh sync-s3-folder eyes-production/assets/dynamic/tle $TLE_DIR quiet
-# $AWS_S3_SYNC_DIR/invalidate.sh $CLOUDFRONT_PRODUCTION_ID "/assets/dynamic/tle/*"
+$AWS_S3_SYNC_DIR/sync.sh sync-s3-folder eyes-staging/assets/dynamic/tle $TLE_DIR quiet
+$AWS_S3_SYNC_DIR/sync.sh sync-s3-folder eyes-production/assets/dynamic/tle $TLE_DIR quiet
+$AWS_S3_SYNC_DIR/invalidate.sh $CLOUDFRONT_PRODUCTION_ID "/assets/dynamic/tle/*"
 
 echo "Complete"
