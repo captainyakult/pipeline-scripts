@@ -59,7 +59,7 @@ for tle_name in $tle_list; do
 			echo "    Uploading dynamo"
 			$AWS_S3_SYNC_DIR/sync.sh sync-s3-folder eyes-dev/assets/dynamic/dynamo/$eyes_name $BASE/data/dynamo/$eyes_name quiet
 			$AWS_S3_SYNC_DIR/sync.sh sync-s3-folder eyes-staging/assets/dynamic/dynamo/$eyes_name $BASE/data/dynamo/$eyes_name quiet
-			$AWS_S3_SYNC_DIR/sync.sh sync-s3-folder eyes-production/assets/dynamic/dynamo/$eyes_name $BASE/datas/dynamo/$eyes_name quiet
+			$AWS_S3_SYNC_DIR/sync.sh sync-s3-folder eyes-production/assets/dynamic/dynamo/$eyes_name $BASE/data/dynamo/$eyes_name quiet
 			$AWS_S3_SYNC_DIR/invalidate.sh $CLOUDFRONT_PRODUCTION_ID "/assets/dynamic/dynamo/$eyes_name/*"
 		fi
 	fi
