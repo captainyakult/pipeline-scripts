@@ -24,7 +24,7 @@ LOG_FILE=$BASE/logs/$LOG_FILE.log # prepend the log path
 
 function log_error {
 	echo "$1" | $BASE/code/scripts/log.sh >> $LOG_FILE
-	echo "$1. Please see the log file at $LOG_FILE." | mail -s Error vtad-pipelines@jpl.nasa.gov hurley@jpl.nasa.gov
+	echo "$1. Please see the log file at $LOG_FILE." | mail -s Error vtad-pipelines@jpl.nasa.gov
 }
 
 # Lock the code so that it never runs more then once at a time.
