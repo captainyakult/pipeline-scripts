@@ -67,9 +67,9 @@ if [[ -f "$BASE/data/ssd/newly_generated_spks.txt" ]]; then
 			# Sync the dynamo folder to AWS.
 			echo "  Uploading to dev, staging, and production AWS..."
 			$BASE/code/aws-s3-sync/sync.sh sync-s3-folder eyes-dev/assets/dynamic/dynamo/ssd/$PIONEER_NAME $BASE/data/dynamo/ssd/$PIONEER_NAME quiet
-			# $BASE/code/aws-s3-sync/sync.sh sync-s3-folder eyes-staging/assets/dynamic/dynamo/ssd/$PIONEER_NAME $BASE/data/dynamo/ssd/$PIONEER_NAME quiet
-			# $BASE/code/aws-s3-sync/sync.sh sync-s3-folder eyes-production/assets/dynamic/dynamo/ssd/$PIONEER_NAME $BASE/data/dynamo/ssd/$PIONEER_NAME quiet
-			# $BASE/code/aws-s3-sync/invalidate.sh E3JMG193HISS1S "/assets/dynamic/dynamo/ssd/$PIONEER_NAME/*"
+			$BASE/code/aws-s3-sync/sync.sh sync-s3-folder eyes-staging/assets/dynamic/dynamo/ssd/$PIONEER_NAME $BASE/data/dynamo/ssd/$PIONEER_NAME quiet
+			$BASE/code/aws-s3-sync/sync.sh sync-s3-folder eyes-production/assets/dynamic/dynamo/ssd/$PIONEER_NAME $BASE/data/dynamo/ssd/$PIONEER_NAME quiet
+			$BASE/code/aws-s3-sync/invalidate.sh E3JMG193HISS1S "/assets/dynamic/dynamo/ssd/$PIONEER_NAME/*"
 	done < $BASE/data/ssd/newly_generated_spks.txt
 fi
 
@@ -77,7 +77,8 @@ fi
 rm -f $BASE/data/ssd/newly_generated_spks.txt
 
 # Sync the ssd folder to AWS.
-$BASE/code/aws-s3-sync/sync.py sync-s3-folder eyes-dev/assets/dynamic/ssd $BASE/data/ssd quiet
-# $BASE/code/aws-s3-sync/sync.py sync-s3-folder eyes-staging/assets/dynamic/ssd $BASE/data/ssd quiet
-# $BASE/code/aws-s3-sync/sync.py sync-s3-folder eyes-production/assets/dynamic/ssd $BASE/data/ssd quiet
-# $BASE/code/aws-s3-sync/invalidate.py E3JMG193HISS1S "/assets/dynamic/ssd/*"
+$BASE/code/aws-s3-sync/sync.sh sync-s3-folder eyes-dev/assets/dynamic/ssd $BASE/data/ssd quiet
+$BASE/code/aws-s3-sync/sync.sh sync-s3-folder eyes-staging/assets/dynamic/ssd $BASE/data/ssd quiet
+$BASE/code/aws-s3-sync/sync.sh sync-s3-folder eyes-production/assets/dynamic/ssd $BASE/data/ssd quiet
+$BASE/code/aws-s3-sync/invalidate.sh E3JMG193HISS1S "/assets/dynamic/ssd/*"
+

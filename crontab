@@ -7,7 +7,7 @@
 # */30 * * * * ~/code/scripts/cron_run.sh ~/code/scripts/update_earth.sh
 # */30 * * * * ~/code/scripts/cron_run.sh ~/code/scripts/update_earth.sh production
 # ssd-pipeline
-# 0 10,22 * * * ~/code/scripts/cron_run.sh ~/code/scripts/ssd_pipeline.sh
+0 10,22 * * * ~/code/scripts/cron_run.sh ~/code/scripts/ssd_pipeline.sh
 # exo dev database pipeline
 # 0 * * * * ~/code/scripts/cron_run.sh ~/code/scripts/update_exo_dev.sh
 # exo production database pipeline
