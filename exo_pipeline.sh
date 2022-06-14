@@ -21,11 +21,11 @@ mkdir -p $EXO_DIR
 # Run the exo generator.
 $EXO_PIPELINE_DIR/run.sh $EXO_DIR/ $AWS_URL
 
-# # Upload the files to AWS.
-# if [[ ($1 == 'production') ]]; then
-# 	$AWS_S3_SYNC_DIR/sync.sh sync-s3-folder eyes-production/assets/dynamic/exo/db $EXO_DIR
-# 	$AWS_S3_SYNC_DIR/invalidate.sh E3JMG193HISS1S /assets/dynamic/exo/db
-# else
-# 	$AWS_S3_SYNC_DIR/sync.sh sync-s3-folder eyes-dev/assets/dynamic/exo/db $EXO_DIR
-# 	$AWS_S3_SYNC_DIR/sync.sh sync-s3-folder eyes-staging/assets/dynamic/exo/db $EXO_DIR
-# fi
+# Upload the files to AWS.
+if [[ ($1 == 'production') ]]; then
+	$AWS_S3_SYNC_DIR/sync.sh sync-s3-folder eyes-production/assets/dynamic/exo/db $EXO_DIR
+	$AWS_S3_SYNC_DIR/invalidate.sh E3JMG193HISS1S /assets/dynamic/exo/db
+else
+	$AWS_S3_SYNC_DIR/sync.sh sync-s3-folder eyes-dev/assets/dynamic/exo/db $EXO_DIR
+	$AWS_S3_SYNC_DIR/sync.sh sync-s3-folder eyes-staging/assets/dynamic/exo/db $EXO_DIR
+fi

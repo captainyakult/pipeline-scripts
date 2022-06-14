@@ -9,7 +9,7 @@
 # ssd-pipeline
 0 10,22 * * * ~/code/scripts/cron_run.sh ~/code/scripts/ssd_pipeline.sh
 # exo dev database pipeline
-# 0 * * * * ~/code/scripts/cron_run.sh ~/code/scripts/exo_pipeline.sh
+0 * * * * ~/code/scripts/cron_run.sh ~/code/scripts/exo_pipeline.sh
 # exo production database pipeline
 # 0 */4 * * * ~/code/scripts/cron_run.sh ~/code/scripts/exo_pipeline.sh production
 # spice, animdata, and dynamo pipeline
