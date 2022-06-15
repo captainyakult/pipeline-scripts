@@ -10,13 +10,13 @@ COMMAND=$1
 shift
 
 # Setup the log file path.
-LOG_FILE="$COMMAND"
-LOG_FILE="${LOG_FILE##*/}" # remove everything before the last slash
-LOG_FILE="${LOG_FILE%.*}" # remove everything after the last period
-LOG_FILE="$LOG_FILE $@" # add on the params
-LOG_FILE="${LOG_FILE%"${LOG_FILE##*[![:space:]]}"}" # trim trailing white space
-LOG_FILE="${LOG_FILE// /_}" # turn any spaces into underscores
-LOG_FILE=$BASE/logs/$LOG_FILE.log # prepend the log path
+LOG_NAME="$COMMAND"
+LOG_NAME="${LOG_NAME##*/}" # remove everything before the last slash
+LOG_NAME="${LOG_NAME%.*}" # remove everything after the last period
+LOG_NAME="$LOG_NAME $@" # add on the params
+LOG_NAME="${LOG_NAME%"${LOG_NAME##*[![:space:]]}"}" # trim trailing white space
+LOG_NAME="${LOG_NAME// /_}" # turn any spaces into underscores
+LOG_FILE=$BASE/logs/$LOG_NAME.log # prepend the log path
 
 # # Make sure we are using a good cert file.
 # export REQUESTS_CA_BUNDLE=$HOME/data/cert.pem
@@ -34,7 +34,7 @@ function log_error {
 		exit 0
 	}
 
-	echo "Starting $COMMAND..." | $BASE/code/scripts/log.sh >> $LOG_FILE
+	echo "Starting $COMMAND $@..." | $BASE/code/scripts/log.sh >> $LOG_FILE
 
 	if [[ $2 == "bg" ]]; then
 		shift
@@ -50,5 +50,5 @@ function log_error {
 
 	echo "Completed $COMMAND" | $BASE/code/scripts/log.sh >> $LOG_FILE
 
-) 99>/var/lock/`basename $COMMAND`
+) 99>/var/lock/`basename $LOG_NAME`
 
