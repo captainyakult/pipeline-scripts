@@ -1,0 +1,1 @@
+The eoe-cms.sh pipeline starts the eoe-cms/run.sh folder with the appropriate parameters. Then is watches for the ~/data/earth_events/publish/touch file to change, indicating an event has been published, and then pushes everything to AWS.
