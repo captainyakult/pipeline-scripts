@@ -13,6 +13,7 @@ mkdir -p $EARTH_EVENTS_FOLDER/publish
 # Check that the server.crt and server.key files exist.
 if [[ ! -f "$BASE/data/keys/server.crt" || ! -f "$BASE/data/keys/server.key" ]]; then
   echo "Make sure you have $BASE/data/keys/server.crt and $BASE/data/keys/server.key."
+	exit 1
 fi
 
 # Set initial modified time of publish/touch
