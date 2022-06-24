@@ -3,6 +3,7 @@
 # Fail on any error.
 set -eo pipefail
 
+SSL_KEY_FOLDER=$BASE/data/keys/ssl
 EARTH_EVENTS_FOLDER=$BASE/data/earth_events
 
 # Create the folders if they don't exist.
@@ -11,8 +12,8 @@ mkdir -p $EARTH_EVENTS_FOLDER/preview
 mkdir -p $EARTH_EVENTS_FOLDER/publish
 
 # Check that the server.crt and server.key files exist.
-if [[ ! -f "$BASE/data/keys/server.crt" || ! -f "$BASE/data/keys/server.key" ]]; then
-  echo "Make sure you have $BASE/data/keys/server.crt and $BASE/data/keys/server.key."
+if [[ ! -f "$SSL_KEY_FOLDER/server.crt" || ! -f "$SSL_KEY_FOLDER/server.key" ]]; then
+  echo "Make sure you have $SSL_KEY_FOLDER/server.crt and $SSL_KEY_FOLDER/server.key."
 	exit 1
 fi
 
@@ -21,7 +22,7 @@ touch $EARTH_EVENTS_FOLDER/publish/touch
 LTIME=`stat -c %Z $EARTH_EVENTS_FOLDER/publish/touch`
 
 # Start the eoe-cms pipeline in detached mode.
-$BASE/code/eoe-cms/run.sh production 3001 $BASE/data/keys $EARTH_EVENTS_FOLDER https://blackhawk3.jpl.nasa.gov/assets/dynamic/earth_events/preview &
+$BASE/code/eoe-cms/run.sh production 3001 $SSL_KEY_FOLDER $EARTH_EVENTS_FOLDER https://blackhawk3.jpl.nasa.gov/assets/dynamic/earth_events/preview &
 
 # Monitor for changes in the modified time of the publish/touch file.
 while true; do
