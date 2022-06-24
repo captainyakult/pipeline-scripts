@@ -26,26 +26,22 @@ $BASE/code/eoe-cms/run.sh production 3001 $BASE/data/keys $EARTH_EVENTS_FOLDER h
 # Monitor for changes in the modified time of the publish/touch file.
 while true; do
 
-  echo "Checking"
-
   # If the modified time is different, start the AWS sync.
 	ATIME=`stat -c %Z $EARTH_EVENTS_FOLDER/publish/touch`
 	if [[ "$ATIME" != "$LTIME" ]]; then
 
-    echo "Changed"
-
     # Sync to staging (old).
     $BASE/code/aws-s3-sync/sync.sh sync-s3-folder eyesstage/server/data/eo $EARTH_EVENTS_FOLDER/publish/eo
 
-    # # Sync to production (old).
-    # $BASE/code/aws-s3-sync/sync.sh sync-s3-folder eyesstatic/server/data/eo $EARTH_EVENTS_FOLDER/publish/eo
-    # $BASE/code/aws-s3-sync/invalidate.sh E3JMG193HISS1S /server/data/eo
+    # Sync to production (old).
+    $BASE/code/aws-s3-sync/sync.sh sync-s3-folder eyesstatic/server/data/eo $EARTH_EVENTS_FOLDER/publish/eo
+    $BASE/code/aws-s3-sync/invalidate.sh E3JMG193HISS1S /server/data/eo
 
     # Sync to dev, staging, and production.
     $BASE/code/aws-s3-sync/sync.sh sync-s3-folder eyes-dev/assets/dynamic/earth_events/ $EARTH_EVENTS_FOLDER/publish/eo
     $BASE/code/aws-s3-sync/sync.sh sync-s3-folder eyes-staging/assets/dynamic/earth_events/ $EARTH_EVENTS_FOLDER/publish/eo
-    # $BASE/code/aws-s3-sync/sync.sh sync-s3-folder eyes-production/assets/dynamic/earth_events/ $EARTH_EVENTS_FOLDER/publish/eo
-    # $BASE/code/aws-s3-sync/invalidate.sh E3JMG193HISS1S /assets/dynamic/earth_events
+    $BASE/code/aws-s3-sync/sync.sh sync-s3-folder eyes-production/assets/dynamic/earth_events/ $EARTH_EVENTS_FOLDER/publish/eo
+    $BASE/code/aws-s3-sync/invalidate.sh E3JMG193HISS1S /assets/dynamic/earth_events
 
 		LTIME=$ATIME
 	fi
