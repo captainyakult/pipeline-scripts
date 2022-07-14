@@ -49,5 +49,10 @@ while true; do
 
   # Wait a bit to check again.
 	sleep 10
+
+	# If the docker container is no longer running, break.
+	if [ ! "$(docker ps -a | grep eoe-cms)" ]; then
+		break
+	fi
 done
 
