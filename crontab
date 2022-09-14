@@ -7,6 +7,8 @@
 # earth MB data pipeline
 */30 * * * * ~/code/scripts/cron_run.sh ~/code/scripts/update_earth.sh
 */30 * * * * ~/code/scripts/cron_run.sh ~/code/scripts/update_earth.sh production
+# ESCDS earth data pipeline
+30 1,2,5,9,13,17,21 * * * ~/code/scripts/cron_run.sh ~/code/scripts/sync_earth_data.sh
 # ssd-pipeline
 0 10,22 * * * ~/code/scripts/cron_run.sh ~/code/scripts/ssd_pipeline.sh
 # exo dev database pipeline
